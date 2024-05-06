@@ -1,0 +1,65 @@
+.field{
+    width: 30%;
+    height: 100vh;
+    margin: auto;
+}
+
+.field > .heading{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.field form{
+    width: 100%;
+}
+
+.field > form >  .form_div{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+
+.field > form >  .form_div > input{
+    width: 100%;
+    height: 100%;
+    outline: none;
+    border: none;
+    font-weight: 400;
+    font-size: 16px;
+    padding-left: 10px;
+    background-color: rgb(241, 243, 243);
+    color: black;
+    border-bottom: 1px solid rgb(215, 213, 213);
+}
+
+.field > form > .form_div > input:focus{
+    border-bottom: 2px solid rgb(228, 107, 8);
+}
+
+.auth_btn{
+    background-color: rgb(228, 107, 8);
+    border: none;
+    width: 100%;
+    padding: 15px;
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+    border-radius: 40px;
+    margin-top: 40px;
+    cursor: pointer;
+}
+
+.forgot_password{
+    margin-top: 40px;
+}
+
+.auth_link{
+    color: rgb(228, 107, 8);
+    text-decoration: none;
+}
