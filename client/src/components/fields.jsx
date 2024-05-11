@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import "./fields.css"
 import { Link } from 'react-router-dom'
-const Fields = ({data, marginTop, header, autLink, forgetPassword, event}) => {
+
+const Fields = ({data, marginTop, header, autLink, forgetPassword, event, handle}) => {
+  
   return (
-    <div className='field' style={{marginTop: `${marginTop}rem`}}>
+    <div className='field' style={{marginTop: `${marginTop}%`}}>
       <div className='heading'>
         <h1>{header}</h1>
         <Link className='auth_link' to={`/${autLink}`}>
@@ -29,9 +31,8 @@ const Fields = ({data, marginTop, header, autLink, forgetPassword, event}) => {
                 </Link>
                 )
              }
-
-              <button className='auth_btn'>{ header}</button>
         </form>
+        <button onClick={handle} className='auth_btn'>{ header}</button>
     </div>
   )
 }

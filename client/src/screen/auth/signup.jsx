@@ -4,11 +4,11 @@ import Fields from '../../components/fields'
 import { authContext } from '../../service/auth_context/authContext'
 
 const Signup = () => {
-    const { get_signup_values } = useContext(authContext)
+    const { get_signup_values, signup_button} = useContext(authContext)
     
   return (
     <AuthLayout>
-          <Fields data={data} marginTop={7} header="SignUp" autLink="login" forgetPassword={null} event={get_signup_values} />
+          <Fields data={data} marginTop={5} header="SignUp" autLink="login" forgetPassword={null} event={get_signup_values} handle={signup_button} />
     </AuthLayout>
   )
 }
@@ -37,6 +37,12 @@ const data = [
         type: "password",
         name: "password",
         placeholder:"Password"
+    },
+    {
+        id: 4,
+        type: "text",
+        name: "telephone",
+        placeholder:"Telephone"
     },
 ]
 

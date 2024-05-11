@@ -4,7 +4,7 @@ const { comapare_password, hash_password } = require("../utils/bcrypt");
 const { generateToken, decodeToken } = require("../utils/jwt");
 
 exports.Register = async (req, res) =>{
-   
+   console.log("samo")
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array()[0].msg });
@@ -12,6 +12,10 @@ exports.Register = async (req, res) =>{
 
     try {
         const { first_name, last_name, email, password, telephone } = await req.body
+
+        const find_user = await User.findOne({ email })
+        
+        if (find_user) throw new Error("User already exists")
 
         const hashed_password = hash_password(password)
 
@@ -21,6 +25,7 @@ exports.Register = async (req, res) =>{
             return res.status(200).json({msg: "User registered successfully"})
         }
     } catch (error) {
+        
         return res.status(504).json({msg: error.message})
     }
 }
@@ -40,11 +45,12 @@ exports.User_login = async (req, res) =>{
 
         if (!password_verify) throw new Error("Incorrect password" ) 
         
-        const token = generateToken(user.id, "1s")
+        const token = generateToken(user.id, "1d")
         
         req.session.auth_token = token
         
-        return res.status(200).json({ decode }) 
+        
+         return res.status(200).json({ms: "login successfull" }) 
         
     } catch (error) {
         if(error.message === "User not found") return res.status(401).json({ msg: error.message }) 
@@ -54,18 +60,18 @@ exports.User_login = async (req, res) =>{
 }
 
 
-exports.forgot_password = async (req, res)=>{
+exports.Forgot_password = async (req, res)=>{
     try {
         const { email } = req.body
         const user = await User.findOne({ email })
         
         if (!user) throw new Error("Email not found")
         
-        const token = generateToken({email: user.email, id:user.id}, "2m")
+        const token = generateToken({email: user.email, id:user.id}, "2d")
 
         req.session.forget_token = token
 
-        return res.status(200).json({msg: "You can now set your password with 2 minute from now"})
+        return res.status(200).json({msg: "You can now set your password with 1 day from now"})
 
     } catch (error) {
         if(error.message === "Email not found" ) return res.status(401).json({ msg: error.message }) 
@@ -74,28 +80,34 @@ exports.forgot_password = async (req, res)=>{
 }
 
 
-exports.update_password = async (req, res) => {
+exports.Update_password = async (req, res) => {
     try {
         const { password, confirm_password} = req.body
         
-        if(password !== confirm_password) return res.status(401).json({msg: "password does not match"})
+        if(password != confirm_password) return res.status(401).json({msg: "password does not match"})
         
-        const token = req.session.forget_token
+        const token = await req?.session?.forget_token
+        
+        console.log(token)
+       
         const decode = decodeToken(token)
         
+       // console.log(decode)
         if (decode?.message === "jwt expired") return res.status(408).json({ msg: "Time out" })
         
         if (decode?.message === "invalid token") return res.status(401).json({ msg: "Unauthorize access" })
         
-        const { email } = decode
+        const { id: { email } } = decode
+        
+        console.log(email)
 
-        const user = await User.findByIdAndUpdate({ email }, { password: password }, { new: true })
+        const user = await User.findOneAndUpdate({ email: email }, { password: password }, { new: true });
         
         if (!user) return res.status(401).json({ msg: "Unable to update passwor" })
         
-        return res.status(200).json({msg: "Password updated successfully"})
+         return res.status(200).json({msg: "Password updated successfully"})
 
-
+ 
     } catch (error) {
         return res.status(500).json({ msg: error.message }) 
     }
