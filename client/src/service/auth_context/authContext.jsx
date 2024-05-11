@@ -51,7 +51,7 @@ const AuthProvider = ({children}) =>{
     }
 
 
-    const signup_button = async(e)=>{
+    const signup_button = async(navigate)=>{
         const body = {
             first_name: signup.first_name,
             last_name: signup.last_name,
@@ -61,19 +61,35 @@ const AuthProvider = ({children}) =>{
         }
 
         try {
-            e.preventDefault(); 
             const response = await axios.post(`http://localhost:8000/api/v1/auth-route/register`, body)
 
             if (response.status === 200) {
-                const data = await response.data
+                const data = await response.data.msg
                 console.log(data)
+                navigate("http://localhost:3000/login")
             }
 
         } catch (error) {
-            const errors = error.response.data.msg || error.response.data.errors
-            console.log(errors)
-        }
         
+            const errors = error.response.data.msg || error.response.data.errors
+            set_error_message(errors)
+        
+            if (errors) {
+               const error_time_interval = setInterval(()=>{
+                   set_error_message(null)
+
+               }, [ 5000 ])
+                
+                setTimeout(() => {
+                    clearInterval(error_time_interval);
+                }, 10000);
+            
+            }
+            
+
+
+           
+        }
     }
 
     return (
@@ -81,7 +97,8 @@ const AuthProvider = ({children}) =>{
                 get_login_values,
                 get_signup_values,
                 login_button,
-                signup_button
+                signup_button,
+                error_message
             }}>
         {children}
     </authContext.Provider>
