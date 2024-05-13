@@ -3,15 +3,14 @@ import AuthLayout from '../../layout/authLayout'
 import Fields from '../../components/fields'
 import { authContext } from '../../service/auth_context/authContext'
 import AuthProvider from '../../service/auth_context/authContext'
+import "./auth.css"
 const Login = () => {      
   const { get_login_values, login_button } = useContext(authContext)
   
   return (
-    <AuthProvider>
     <AuthLayout>
-      <Fields data={data} marginTop={8} header="Login" autLink="Signup"forgetPassword="forgot password" event={get_login_values} handle={login_button} />
+       <Fields data={data} marginTop={8} header="Login" autLink="Signup"forgetPassword="forgot password" event={get_login_values} handle={login_button} />
     </AuthLayout>
-    </AuthProvider>
   )
 }
 

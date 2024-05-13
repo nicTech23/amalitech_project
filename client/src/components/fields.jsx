@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
 import "./fields.css"
 import { Link } from 'react-router-dom'
-
+import { useNavigate } from 'react-router-dom'
 const Fields = ({data, marginTop, header, autLink, forgetPassword, event, handle}) => {
+  const navigate = useNavigate()
   
   return (
     <div className='field' style={{marginTop: `${marginTop}%`}}>
@@ -26,13 +27,13 @@ const Fields = ({data, marginTop, header, autLink, forgetPassword, event, handle
               
              {
                 forgetPassword && (
-                <Link className='forgot_password'>
+                <Link to="/forgot-password" className='forgot_password'>
                   <p>{ forgetPassword}?</p>
                 </Link>
                 )
              }
         </form>
-        <button onClick={handle} className='auth_btn'>{ header}</button>
+        <button onClick={()=>handle(navigate )} className='auth_btn'>{ header}</button>
     </div>
   )
 }

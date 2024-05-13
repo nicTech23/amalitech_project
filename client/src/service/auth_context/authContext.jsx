@@ -18,6 +18,15 @@ const AuthProvider = ({children}) =>{
         telephone:""
     })
     
+    const [ update_password, set_update_password ] = useState({
+        password: "",
+        confirm_password:""
+    })
+
+    const [ forgot_password, set_forgot_password ] = useState({
+        email:""
+    })
+    
     const [ error_message, set_error_message ] = useState(null)
     
 
@@ -31,21 +40,49 @@ const AuthProvider = ({children}) =>{
         setSigup({ ...signup, [ e.target.name ]: e.target.value })
     }, [ signup ])
     
+    const get_update_password_value = useCallback( (e)=>{
+        set_update_password({ ...update_password, [ e.target.name ]: e.target.value })
+         console.log(update_password)
+    }, [update_password])
+    
+    const get_forgot_password_value = useCallback( (e)=>{
+        set_forgot_password({ ...forgot_password, [ e.target.name ]: e.target.value })
+        console.log(forgot_password)
+    },[forgot_password])
     // Hundle to loging
-    const login_button = async(e)=>{
-       e.preventDefault(); 
+
+
+    const login_button = async(navigate)=>{
+        const body = {
+            email: login.email,
+            password:login.password
+        }
+
         try {
-              e.preventDefault(); 
-            const response = await axios.post(`http://localhost:8000/api/v1/auth-route/user-login`, login)
+            const response = await axios.post(`http://localhost:8000/api/v1/auth-route/user-login`, body, {withCredentials:true})
 
             if (response.status === 200) {
                 const data = await response.data
-                
                 console.log(data)
+                setLogin({email: "", password:""})
+                navigate()
             }
 
         } catch (error) {
-            console.log(error.message)
+            const errors = error.response.data.msg || error.response.data.errors
+            set_error_message(errors)
+            console.log(error)
+            if (errors) {
+               const error_time_interval = setInterval(()=>{
+                   set_error_message(null)
+
+               }, [ 5000 ])
+                
+                setTimeout(() => {
+                    clearInterval(error_time_interval);
+                }, 10000);
+            
+            }  
         }
         
     }
@@ -64,16 +101,15 @@ const AuthProvider = ({children}) =>{
             const response = await axios.post(`http://localhost:8000/api/v1/auth-route/register`, body)
 
             if (response.status === 200) {
-                const data = await response.data.msg
-                console.log(data)
-                navigate("http://localhost:3000/login")
+                 console.log("navigate")
+                navigate("/login")
+                setSigup({})
             }
 
         } catch (error) {
-        
             const errors = error.response.data.msg || error.response.data.errors
             set_error_message(errors)
-        
+            console.log(errors)
             if (errors) {
                const error_time_interval = setInterval(()=>{
                    set_error_message(null)
@@ -84,21 +120,82 @@ const AuthProvider = ({children}) =>{
                     clearInterval(error_time_interval);
                 }, 10000);
             
-            }
-            
-
-
-           
+            }  
         }
     }
 
+    const forgot_password_button = async (navigate)=>{
+        const body = {
+            email: forgot_password.email
+        }
+
+        try {
+            const response = await axios.post(`http://localhost:8000/api/v1/auth-route/forgot-password`, body, {withCredentials:true})
+            if (response.status === 200) {
+                const data = await response.data
+                console.log(data)
+                navigate("/update-password")
+                set_forgot_password({})
+            }
+        } catch (error) {
+            const errors = error.response.data.msg || error.response.data.errors
+            set_error_message(errors)
+            console.log(errors)
+            if (errors) {
+               const error_time_interval = setInterval(()=>{
+                   set_error_message(null)
+
+               }, [ 5000 ])
+                
+                setTimeout(() => {
+                    clearInterval(error_time_interval);
+                }, 10000);
+            
+            }  
+        }
+    }
+
+    const update_password_button = async(navigate)=>{
+        const body = {
+            password: update_password.password,
+            confirm_password: update_password.confirm_password
+        }
+
+        try {
+            const response = await axios.put(`http://localhost:8000/api/v1/auth-route/update-password`, body, { withCredentials: true })
+             if (response.status === 200) {
+                const data = await response.data
+                 console.log(data)
+                 set_update_password({})
+            }
+        } catch (error) {
+            const errors = error.response.data.msg || error.response.data.errors
+            set_error_message(errors)
+            console.log(errors)
+            if (errors) {
+               const error_time_interval = setInterval(()=>{
+                   set_error_message(null)
+
+               }, [ 5000 ])
+                
+                setTimeout(() => {
+                    clearInterval(error_time_interval);
+                }, 10000);
+            
+            }  
+        }
+    }
     return (
         <authContext.Provider value={{
                 get_login_values,
                 get_signup_values,
                 login_button,
                 signup_button,
-                error_message
+                error_message,
+                get_forgot_password_value,
+                get_update_password_value,
+                forgot_password_button,
+                update_password_button
             }}>
         {children}
     </authContext.Provider>

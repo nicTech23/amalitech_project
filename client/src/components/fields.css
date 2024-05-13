@@ -2,11 +2,15 @@
     width: 30%;
     height: 100vh;
     margin: auto;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    background-color: rgb(241, 243, 243);
 }
 
 .field > .heading{
     width: 100%;
     display: flex;
+    margin-bottom: 10px;
     justify-content: space-between;
     align-items: center;
 }
@@ -46,17 +50,18 @@
     background-color: rgb(228, 107, 8);
     border: none;
     width: 100%;
-    padding: 15px;
+    padding: 10px;
     color: white;
     font-weight: 700;
     font-size: 18px;
-    border-radius: 40px;
-    margin-top: 40px;
+    border-radius: 20px;
+    margin-top: 10px;
     cursor: pointer;
 }
 
 .forgot_password{
     margin-top: 40px;
+    margin-bottom: 60px;
 }
 
 .auth_link{

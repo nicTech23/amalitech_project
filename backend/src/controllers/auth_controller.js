@@ -48,14 +48,15 @@ exports.User_login = async (req, res) =>{
         const token = generateToken(user.id, "1d")
         
         req.session.auth_token = token
+
+        console.log(req.session)
+
+
         
-        
-         return res.status(200).json({ms: "login successfull" }) 
+        return res.status(200).json({ms: "login successfull" }) 
         
     } catch (error) {
-        if(error.message === "User not found") return res.status(401).json({ msg: error.message }) 
-        if(error.message === "Incorrect password") return res.status(401).json({ msg: error.message }) 
-        return res.status(500).json({ msg: error.message }) 
+        return res.status(504).json({ msg: error.message }) 
     }
 }
 
@@ -67,8 +68,8 @@ exports.Forgot_password = async (req, res)=>{
         
         if (!user) throw new Error("Email not found")
         
-        const token = generateToken({email: user.email, id:user.id}, "2d")
-
+        const token = generateToken({email: user.email, id:user.id}, "1m")
+    
         req.session.forget_token = token
 
         return res.status(200).json({msg: "You can now set your password with 1 day from now"})
@@ -88,20 +89,20 @@ exports.Update_password = async (req, res) => {
         
         const token = await req?.session?.forget_token
         
-        console.log(token)
+        //console.log(token)
        
         const decode = decodeToken(token)
         
-       // console.log(decode)
+        // console.log(decode)
         if (decode?.message === "jwt expired") return res.status(408).json({ msg: "Time out" })
         
         if (decode?.message === "invalid token") return res.status(401).json({ msg: "Unauthorize access" })
         
         const { id: { email } } = decode
         
-        console.log(email)
+        const password_hash = hash_password(password)
 
-        const user = await User.findOneAndUpdate({ email: email }, { password: password }, { new: true });
+        const user = await User.findOneAndUpdate({ email: email }, { password: password_hash });
         
         if (!user) return res.status(401).json({ msg: "Unable to update passwor" })
         

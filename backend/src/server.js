@@ -11,25 +11,42 @@ const port = process.env.PORT || 8000
 
 //Middleware
 app.use(express.json())
+
 app.use(session({
   secret: process.env.SECRETE_KEY,
   saveUninitialized: false, 
   resave: false,
   cookie: {
+    secure: false, // Set it to true if using HTTPS
+    httpOnly: true, // Make the cookie HttpOnly
     maxAge: 60000 * 30
   }
 }))
 
-app.use((_, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "OPTIONS, GET, POST, PUT, PATCH, DELETE"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
+// app.use((_, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader(
+//     "Access-Control-Allow-Methods",
+//     "OPTIONS, GET, POST, PUT, PATCH, DELETE"
+//   );
+//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//   next();
+// });
 
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  
+  if (req.method === 'OPTIONS') {
+    // Handle preflight requests
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
 
 // Routes
 app.use("/api/v1/auth-route", auth_router)

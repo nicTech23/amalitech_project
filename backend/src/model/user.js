@@ -20,7 +20,11 @@ const userSchema = new mongoose.Schema({
     telephone: {
         type: String,
         required:true
-    }
+    },
+    role: {
+        type: String,
+        default:"user"
+    },
 }, {
     timestamps: true
 })

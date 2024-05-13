@@ -2,16 +2,13 @@ import React, { useContext } from 'react'
 import AuthLayout from '../../layout/authLayout'
 import Fields from '../../components/fields'
 import { authContext } from '../../service/auth_context/authContext'
-import AuthProvider from '../../service/auth_context/authContext'
-import { useNavigate } from 'react-router-dom';
+
+
 const Signup = () => {
     const { get_signup_values, signup_button} = useContext(authContext)
-    const navigate = useNavigate()
     return (
       <AuthLayout>
-      <AuthLayout>
-          <Fields data={data} marginTop={7} header="SignUp" autLink="login" forgetPassword={null} event={get_signup_values} handle={signup_button} />
-    </AuthLayout>
+        <Fields data={data} marginTop={7} header="SignUp" autLink="login" forgetPassword={null} event={get_signup_values} handle={signup_button} />
     </AuthLayout>
   )
 }
