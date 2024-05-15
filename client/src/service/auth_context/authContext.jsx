@@ -69,7 +69,7 @@ const AuthProvider = ({children}) =>{
             }
 
         } catch (error) {
-            const errors = error.response.data.msg || error.response.data.errors
+            const errors = error?.response?.data.msg || error?.response?.data.errors || error.message
             set_error_message(errors)
             console.log(error)
             if (errors) {
@@ -107,7 +107,7 @@ const AuthProvider = ({children}) =>{
             }
 
         } catch (error) {
-            const errors = error.response.data.msg || error.response.data.errors
+            const errors = error?.response?.data.msg || error?.response?.data.errors || error.message
             set_error_message(errors)
             console.log(errors)
             if (errors) {
@@ -138,7 +138,7 @@ const AuthProvider = ({children}) =>{
                 set_forgot_password({})
             }
         } catch (error) {
-            const errors = error.response.data.msg || error.response.data.errors
+            const errors = error?.response?.data.msg || error?.response?.data.errors || error.message
             set_error_message(errors)
             console.log(errors)
             if (errors) {
@@ -169,7 +169,7 @@ const AuthProvider = ({children}) =>{
                  set_update_password({})
             }
         } catch (error) {
-            const errors = error.response.data.msg || error.response.data.errors
+            const errors = error?.response?.data.msg || error?.response?.data.errors || error.message
             set_error_message(errors)
             console.log(errors)
             if (errors) {

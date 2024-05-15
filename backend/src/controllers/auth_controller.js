@@ -20,6 +20,7 @@ exports.Register = async (req, res) =>{
         const hashed_password = hash_password(password)
 
         const user = await User.create({ first_name, last_name, email, password:hashed_password, telephone})
+        if (!user) throw new Error("Registration fails")
         
         if (user) {
             return res.status(200).json({msg: "User registered successfully"})
@@ -47,12 +48,8 @@ exports.User_login = async (req, res) =>{
         
         const token = generateToken(user.id, "1d")
         
-        req.session.auth_token = token
+        req.session.user_token = token
 
-        console.log(req.session)
-
-
-        
         return res.status(200).json({ms: "login successfull" }) 
         
     } catch (error) {
@@ -103,7 +100,7 @@ exports.Update_password = async (req, res) => {
         const password_hash = hash_password(password)
 
         const user = await User.findOneAndUpdate({ email: email }, { password: password_hash });
-        
+    
         if (!user) return res.status(401).json({ msg: "Unable to update passwor" })
         
          return res.status(200).json({msg: "Password updated successfully"})

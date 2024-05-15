@@ -3,8 +3,9 @@ import Login from "./screen/auth/login";
 import Signup from "./screen/auth/signup";
 import ForgetPassword from "./screen/auth/forget_password";
 import UpdatePassword from "./screen/auth/update_password";
-import
-  {
+import Feeds from "./screen/feeds/feeds";
+import Dashboard from "./screen/admin_dashboard/dashboard";
+ import  {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
@@ -30,6 +31,14 @@ const router = createBrowserRouter([
   {
     path: "/update-password",
     element: <UpdatePassword/>
+  },
+  {
+    path: "/feeds",
+    element: <Feeds/>
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard/>
   },
 ]);
 

@@ -1,8 +1,12 @@
 const express = require("express")
 const dotenv = require("dotenv")
 const auth_router = require("./routes/auth_route")
+const admin_router = require("./routes/admin_route")
+const document_route = require("./routes/document_route")
 const db_connect = require("./config/db_connect")
 const session = require("express-session")
+const download_route = require("./routes/download_route")
+const message_route = require("./routes/message_route")
 
 const app = express()
 
@@ -50,6 +54,10 @@ app.use((req, res, next) => {
 
 // Routes
 app.use("/api/v1/auth-route", auth_router)
+app.use("/api/v1/admin-route", admin_router)
+app.use("/api/v1/document-route", document_route)
+app.use("/api/v1/download-route", download_route)
+app.use("/api/v1/message-route", message_route)
 
 app.get("*", (_, res)=>{
     res.send("<h1>Page not found</h1>")

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import AuthProvider, { authContext } from '../../service/auth_context/authContext'
 import AuthLayout from '../../layout/authLayout'
-import Fields from '../../components/fields'
+import Fields from '../../components/auth/fields'
 const UpdatePassword = () => {
 const {get_update_password_value, update_password_button} = useContext(authContext)
   return (

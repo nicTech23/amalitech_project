@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import AuthProvider, { authContext } from '../../service/auth_context/authContext'
 import AuthLayout from '../../layout/authLayout'
-import Fields from '../../components/fields'
+import Fields from '../../components/auth/fields'
 import "./auth.css"
 const ForgetPassword = () => {
   const { get_forgot_password_value, forgot_password_button  } = useContext(authContext)
