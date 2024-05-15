@@ -26,3 +26,21 @@
     margin: auto;
     margin-top: 8%;
 }
+
+.dashboard > .modal{
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.add-doc{
+    text-align: center;
+    margin-top: 20px;
+    font-weight: 700;
+    font-size: 24px;
+}
