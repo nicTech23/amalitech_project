@@ -1,8 +1,13 @@
 import React, { useContext } from 'react'
 import "./modal.css"
 import { documentContext } from '../../service/document_context'
+import { Button } from '@mui/material'
 const Modal = () => {
-    const {get_document_values} = useContext(documentContext)
+    const { get_document_values, submit_message, setModal } = useContext(documentContext)
+    
+    // const hideModal = ()=>{
+    //     setModal(false)
+    // }
   return (
     <section className='modal-box'>
       <div className='add-doc'>
@@ -44,7 +49,10 @@ const Modal = () => {
             </div>
         </div>
         
-      </div>
+          </div>
+          <div style={{width:"100%", textAlign:"center"}}>
+              <Button variant='contained' onClick={()=>{submit_message()}}>Submit document</Button>
+          </div>
     </section>
   )
 }

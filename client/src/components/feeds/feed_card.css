@@ -33,7 +33,7 @@
 .download-btn{
     position: absolute;
     top: 4px;
-    left: 0;
+    right: 0;
     border: none;
     padding: 10px;
     background-color: rgb(211, 107, 23);
@@ -41,9 +41,33 @@
     font-weight: 500;
     font-size: 16px;
     cursor: pointer;
-    border-top-right-radius: 16px;
-    border-bottom-right-radius: 16px;
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+    width: 120px;
 }
 .download-btn:hover{
     background-color: rgb(72, 34, 3);
+}
+
+/* Hide the toolbar */
+embed::-webkit-pdf-toolbar {
+    display: none;
+}
+
+/* Hide the download button */
+embed::-webkit-pdf-download-button {
+    display: none;
+}
+
+/* Hide the print button */
+embed::-webkit-pdf-print-button {
+    display: none;
+}
+
+#maskedImage{
+    display: none;
+}
+
+#icon{
+    display: none;
 }

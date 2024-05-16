@@ -1,0 +1,41 @@
+.feed-modal{
+    max-width: 100vw;
+    height: 100vh;
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0%;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.feed-modal-box{
+    width: 40%;
+    height: 40%;
+    background-color: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 5px 5px 10px #585555,
+            -1px -1px 10px #c0bebe;
+        padding: 30px;
+}
+
+.feed-modal-box > h1{
+    text-align: center;
+    width: 100%;
+}
+
+.feed-modal-box > .form{
+    width: 100%;
+}
+
+.feed-modal-box > .form > .input{
+    width: 100%;
+}
+
+.feed-modal-box > .form > .input > input{
+    width: 100%;
+    height: 40px;
+}

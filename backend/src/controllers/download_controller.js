@@ -35,7 +35,7 @@ exports.Downloads_for_each_file = async(req, res)=>{
         
         const total_downloaded = await Download.countDocuments({document:document_id})
 
-        if (!total_downloaded || total_downloaded.length <=0) return res.status(400).json({ msg: "Now downloaded file" })
+        if (!total_downloaded || total_downloaded.length <=0) return res.json({ msg: 0 })
 
         return res.status(200).json({ msg: total_downloaded })
     } catch (error) {
