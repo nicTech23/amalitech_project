@@ -19,11 +19,11 @@ exports.Register = async (req, res) =>{
 
         const hashed_password = hash_password(password)
 
-        const user = await User.create({ first_name, last_name, email, password:hashed_password, telephone})
+        const user = await (await User.create({ first_name, last_name, email, password:hashed_password, telephone}))
         if (!user) throw new Error("Registration fails")
         
         if (user) {
-            return res.status(200).json({msg: "User registered successfully"})
+            return res.status(200).json({msg: "User registered successfully", })
         }
     } catch (error) {
         
@@ -50,7 +50,7 @@ exports.User_login = async (req, res) =>{
         
         req.session.user_token = token
 
-        return res.status(200).json({ms: "login successfull" }) 
+        return res.status(200).json({ms: "login successfull", data:user.id}) 
         
     } catch (error) {
         return res.status(504).json({ msg: error.message }) 

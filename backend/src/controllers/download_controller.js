@@ -4,7 +4,7 @@ const User = require("../model/user");
 exports.Insert_download_file = async(req, res) =>{
     try {
         const { document_id, user_id } = await req.params
-        //console.log(file_id, user_id)
+        console.log(document_id, user_id)
         const downloaded = await Download.create({ document: document_id, downloadBy: user_id })
 
         if (!downloaded) return res.status(400).json({ msg: "Unable to download" })

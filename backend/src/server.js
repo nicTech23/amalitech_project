@@ -11,6 +11,7 @@ const message_route = require("./routes/message_route")
 const app = express()
 
 dotenv.config()
+
 const port = process.env.PORT || 8000 
 
 //Middleware
@@ -52,6 +53,9 @@ app.use((req, res, next) => {
   }
 });
 
+// Serve static files from the 'public' directory
+app.use(express.static('public'));
+
 // Routes
 app.use("/api/v1/auth-route", auth_router)
 app.use("/api/v1/admin-route", admin_router)
@@ -62,7 +66,6 @@ app.use("/api/v1/message-route", message_route)
 app.get("*", (_, res)=>{
     res.send("<h1>Page not found</h1>")
 })
-
 
 
 

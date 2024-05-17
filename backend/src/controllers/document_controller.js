@@ -49,7 +49,7 @@ exports.Search_file = async (req, res) => {
         });
 
         if (!searchResults || searchResults.length === 0) {
-            return res.status(404).json({ msg: "No files found" });
+            return res.json({ msg: "No files found" });
         }
         
         return res.json({ msg: searchResults });

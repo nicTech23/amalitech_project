@@ -63,9 +63,9 @@ const AuthProvider = ({children}) =>{
 
             if (response.status === 200) {
                 const data = await response.data
-                console.log(data)
+                localStorage.setItem("user", data.data)
                 setLogin({email: "", password:""})
-                navigate()
+                navigate("/feeds")
             }
 
         } catch (error) {
