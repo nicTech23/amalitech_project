@@ -41,7 +41,7 @@ const FeedCard = ({title, description, file, id}) => {
         <p>{description }</p>
       </div>
       <button className='download-btn' onClick={()=>post_download(id)}>Download</button>
-      <Tooltip title="message" sx={{backgroundColor:"rgb(211, 107, 23)"}} onClick={()=>modal_control(id)}>
+      <Tooltip title="message" sx={{backgroundColor:"rgb(211, 107, 23)"}} onClick={()=>modal_control(id, file)}>
         <IconButton>
           <ForwardToInboxIcon/>
         </IconButton>

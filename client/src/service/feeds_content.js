@@ -16,8 +16,11 @@ const FeedProvider = ({children}) => {
 
   const [ email, set_email ] = useState({
     body: "", 
-    title:""
+    title: "",
+    recipient:""
   })
+
+
   
   const [ search, set_search ] = useState("")
 
@@ -34,10 +37,10 @@ const FeedProvider = ({children}) => {
        }
     }
 
-  const modal_control = (id)=>{
+  const modal_control = (id, file_name )=>{
     setModal(!modal)
     set_feed_id(id)
-    console.log(id)
+    localStorage.setItem("file_name", file_name )
   }
 
   const get_message = (e)=>{
@@ -46,9 +49,13 @@ const FeedProvider = ({children}) => {
   
  
   const post_message = async()=>{
+    const file_name = localStorage.getItem("file_name")
+    
     const body = {
       title: email.title,
-      body: email.body
+      body: email.body,
+      recipient: email.recipient,
+      file_name 
     }
     try {
       const user_id = localStorage.getItem("user")
@@ -56,7 +63,7 @@ const FeedProvider = ({children}) => {
       const response = await axios.post(`http://localhost:8000/api/v1/message-route/send-message/${feed_id}/${user_id}`, body)
       if(response.status === 200){
         setModal(!modal)
-        set_email({body:"", title:""})
+        set_email({body:"", title:"", recipient:""})
       }
     } catch (error) {
       set_feed_error(error?.response?.data.msg || error?.response?.data.errors || error.message)

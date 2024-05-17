@@ -8,17 +8,23 @@ const Modal = () => {
         <div onClick={()=>modal_control()} style={{position:"absolute",top:"25%", right:"23%", fontWeight:"700", fontSize:"20px", cursor:"pointer"}}>X</div>
       <div className='feed-modal-box'>
         <h1>Send Email</h1>
-        <div style={{width:"100%"}}>
+        <div style={{ width: "100%" }}>
+          <section style={{width:"100%", marginBottom:"15px"}}>
+                <label>To</label>
+                <section>
+                    <input onChange={get_message} type='text' name='recipient' placeholder='Recipient email' style={{width:"100%", height:"40px", border:"1px solid rgb(211, 107, 23)"}}/>
+                </section>
+            </section>
             <section style={{width:"100%", marginBottom:"15px"}}>
                 <label>Title</label>
                 <section>
-                    <input onChange={get_message} type='text' name='title' style={{width:"100%", height:"40px", border:"1px solid rgb(211, 107, 23)"}}/>
+                    <input onChange={get_message} type='text' name='title' placeholder='title' style={{width:"100%", height:"40px", border:"1px solid rgb(211, 107, 23)"}}/>
                 </section>
             </section>
             <section style={{width:"100%"}}>
                 <label>Body</label>
                 <section>
-                    <textarea onChange={get_message} type='text' name='body' style={{width:"100%", height:"80px", border:"1px solid rgb(211, 107, 23)", outline:"none", padding:"10px"}}/>
+                    <textarea onChange={get_message} type='text' name='body' placeholder='email' style={{width:"100%", height:"80px", border:"1px solid rgb(211, 107, 23)", outline:"none", padding:"10px"}}/>
                 </section>
             </section>
         </div>
