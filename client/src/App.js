@@ -14,13 +14,11 @@ import Dashboard from "./screen/admin_dashboard/dashboard";
 import DocumentProvider from "./service/document_context";
 import FeedProvider from "./service/feeds_content";
 
+const auth = localStorage.getItem("user")
 const router = createBrowserRouter([
+
   {
     path: "/",
-    element: <div>Hello world!</div>,
-  },
-  {
-    path: "/login",
     element: <Login/>
   },
   {
@@ -37,7 +35,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/feeds",
-    element: <Feeds/>
+    element: auth ? <Feeds/> : <Login/>
   },
   {
     path: "/dashboard",

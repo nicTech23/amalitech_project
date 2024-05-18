@@ -1,6 +1,6 @@
 const express = require("express")
 const dotenv = require("dotenv")
-const auth_router = require("./routes/auth_route")
+const user_auth_router = require("./routes/user_auth_route")
 const admin_router = require("./routes/admin_route")
 const document_route = require("./routes/document_route")
 const db_connect = require("./config/db_connect")
@@ -57,7 +57,7 @@ app.use((req, res, next) => {
 app.use(express.static('public'));
 
 // Routes
-app.use("/api/v1/auth-route", auth_router)
+app.use("/api/v1/user_auth-route", user_auth_router)
 app.use("/api/v1/admin-route", admin_router)
 app.use("/api/v1/document-route", document_route)
 app.use("/api/v1/download-route", download_route)

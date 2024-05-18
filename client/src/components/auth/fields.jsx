@@ -9,7 +9,7 @@ const Fields = ({data, marginTop, header, autLink, forgetPassword, event, handle
     <div className='field' style={{marginTop: `${marginTop}%`}}>
       <div className='heading'>
         <h1>{header}</h1>
-        <Link className='auth_link' to={`/${autLink}`}>
+        <Link className='auth_link' to={ autLink === "login"? "/": `/${autLink}`}>
             <p>{autLink}</p>
         </Link>
       </div>

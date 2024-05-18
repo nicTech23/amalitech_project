@@ -16,10 +16,11 @@ const FeedProvider = ({children}) => {
 
   const [ email, set_email ] = useState({
     body: "", 
-    title: "",
+    subject: "",
     recipient:""
   })
 
+  const [send, set_send] = useState("send")
 
   
   const [ search, set_search ] = useState("")
@@ -52,29 +53,39 @@ const FeedProvider = ({children}) => {
     const file_name = localStorage.getItem("file_name")
     
     const body = {
-      title: email.title,
+      subject: email.subject,
       body: email.body,
       recipient: email.recipient,
       file_name 
     }
     try {
+      set_send("sending...")
       const user_id = localStorage.getItem("user")
       console.log(user_id)
       const response = await axios.post(`http://localhost:8000/api/v1/message-route/send-message/${feed_id}/${user_id}`, body)
-      if(response.status === 200){
+      set_send("send")
+
+      if (response.status === 200) {
         setModal(!modal)
-        set_email({body:"", title:"", recipient:""})
+        set_email({body:"", subject:"", recipient:""})
       }
     } catch (error) {
+      set_send("send")
       set_feed_error(error?.response?.data.msg || error?.response?.data.errors || error.message)
+       const timer = setInterval(()=>{
+            set_feed_error(null)
+          }, [2000])
+
+          setTimeout(() => {
+            clearInterval(timer)
+          }, 2000);
     }
   }
 
   const post_download = async(feed_id, file)=>{
     try {
-      console.log("file", file)
       const user_id = localStorage.getItem("user")
-      const response = await axios.get(`http://localhost:8000/api/v1/auth-route/download-file/${feed_id}/${file}/${user_id}`,  {
+      const response = await axios.get(`http://localhost:8000/api/v1/download-route/download-file/${feed_id}/${file}/${user_id}`,  {
                 responseType: 'blob', // Important for handling file downloads
             })
     
@@ -98,6 +109,13 @@ const FeedProvider = ({children}) => {
         console.log("File download triggered");
     } catch (error) {
       set_feed_error(error?.response?.data.msg || error?.response?.data.errors || error.message)
+      const timer = setInterval(()=>{
+            set_feed_error(null)
+          }, [2000])
+
+          setTimeout(() => {
+            clearInterval(timer)
+          }, 2000);
     }
   }
   
@@ -142,6 +160,8 @@ const FeedProvider = ({children}) => {
       search,
       search_feed,
       not_found, 
+      feed_error,
+      send
     }}>
       {children}
     </feeds_context.Provider>

@@ -25,7 +25,7 @@ const NodeMailer = (email, html, subject, attachments = [])=> {
         })
         .catch((err) => {
             console.log(err.message);
-            throw err;
+            throw new Error(err.message);
         });
 };
 

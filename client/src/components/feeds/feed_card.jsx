@@ -42,9 +42,9 @@ const FeedCard = ({title, description, file, id}) => {
         <p>{description }</p>
       </div>
       <button className='download-btn' onClick={()=>post_download(id, file)}>Download</button>
-      <Tooltip title="message" sx={{backgroundColor:"rgb(211, 107, 23)"}} onClick={()=>modal_control(id, file)}>
-          <Button download={image_url} sx={{ m: 1,backgroundColor:"rgb(211, 107, 23)" }}>Send to email</Button>
-      </Tooltip>
+      <div style={{backgroundColor:"rgb(211, 107, 23)", width:"50% ", borderTopRightRadius:"16px", borderBottomRightRadius:"16px"}} onClick={()=>modal_control(id, file)}>
+          <Button download={image_url} sx={{ m: 1,backgroundColor:"rgb(211, 107, 23)" , color:"white"}}>Send to email</Button>
+      </div>
   
     </div>
   )

@@ -59,7 +59,7 @@ const AuthProvider = ({children}) =>{
         }
 
         try {
-            const response = await axios.post(`http://localhost:8000/api/v1/auth-route/user-login`, body, {withCredentials:true})
+            const response = await axios.post(`http://localhost:8000/api/v1/user_auth-route/user-login`, body, {withCredentials:true})
 
             if (response.status === 200) {
                 const data = await response.data
@@ -98,11 +98,11 @@ const AuthProvider = ({children}) =>{
         }
 
         try {
-            const response = await axios.post(`http://localhost:8000/api/v1/auth-route/register`, body)
+            const response = await axios.post(`http://localhost:8000/api/v1/user_auth-route/register`, body)
 
             if (response.status === 200) {
                  console.log("navigate")
-                navigate("/login")
+                navigate("/")
                 setSigup({})
             }
 
@@ -130,7 +130,7 @@ const AuthProvider = ({children}) =>{
         }
 
         try {
-            const response = await axios.post(`http://localhost:8000/api/v1/auth-route/forgot-password`, body, {withCredentials:true})
+            const response = await axios.post(`http://localhost:8000/api/v1/user_auth-route/forgot-password`, body, {withCredentials:true})
             if (response.status === 200) {
                 const data = await response.data
                 console.log(data)
@@ -162,11 +162,12 @@ const AuthProvider = ({children}) =>{
         }
 
         try {
-            const response = await axios.put(`http://localhost:8000/api/v1/auth-route/update-password`, body, { withCredentials: true })
+            const response = await axios.put(`http://localhost:8000/api/v1/user_auth-route/update-password`, body, {withCredentials:true})
              if (response.status === 200) {
                 const data = await response.data
                  console.log(data)
-                 set_update_password({})
+                 set_update_password({ password: "", confirm_password: "" })
+                 navigate("/")
             }
         } catch (error) {
             const errors = error?.response?.data.msg || error?.response?.data.errors || error.message

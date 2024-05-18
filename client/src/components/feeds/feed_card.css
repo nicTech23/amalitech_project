@@ -3,6 +3,7 @@
     min-height: 400px;
     position: relative;
     background-color: rgb(252, 251, 251);
+    border: 1px solid black;
 }
 
 .card > .image{
@@ -44,6 +45,7 @@
     border-top-left-radius: 16px;
     border-bottom-left-radius: 16px;
     width: 120px;
+    color: white;
     
 }
 .download-btn:hover{
