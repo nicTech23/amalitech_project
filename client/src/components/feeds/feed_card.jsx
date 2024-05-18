@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import "./feed_card.css"
 import IMG from "../../assets/card.avif"
 import PDF from "../../assets/Nicholas_CV.pdf"
-import { IconButton, Tooltip } from '@mui/material'
+import { Button, IconButton, Tooltip } from '@mui/material'
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import { feeds_context } from '../../service/feeds_content'
 
@@ -10,6 +10,7 @@ import { feeds_context } from '../../service/feeds_content'
 
 const FeedCard = ({title, description, file, id}) => {
   const {modal_control, post_download} = useContext(feeds_context)
+  
   const handleDownloadClick = () => {
     // Replace 'example.pdf' with the URL or path to your CV file
     const cvUrl = `http://localhost:8000/files/${file}`; //url of image
@@ -40,12 +41,11 @@ const FeedCard = ({title, description, file, id}) => {
       <div className='description'>
         <p>{description }</p>
       </div>
-      <button className='download-btn' onClick={()=>post_download(id)}>Download</button>
+      <button className='download-btn' onClick={()=>post_download(id, file)}>Download</button>
       <Tooltip title="message" sx={{backgroundColor:"rgb(211, 107, 23)"}} onClick={()=>modal_control(id, file)}>
-        <IconButton>
-          <ForwardToInboxIcon/>
-        </IconButton>
+          <Button download={image_url} sx={{ m: 1,backgroundColor:"rgb(211, 107, 23)" }}>Send to email</Button>
       </Tooltip>
+  
     </div>
   )
 }

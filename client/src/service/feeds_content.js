@@ -70,11 +70,32 @@ const FeedProvider = ({children}) => {
     }
   }
 
-  const post_download = async(feed_id)=>{
+  const post_download = async(feed_id, file)=>{
     try {
+      console.log("file", file)
       const user_id = localStorage.getItem("user")
-      const response = await axios.post(`http://localhost:8000/api/v1/download-route/insert-download-file/${feed_id}/${user_id}`)
-      console.log("data", response.data)
+      const response = await axios.get(`http://localhost:8000/api/v1/auth-route/download-file/${feed_id}/${file}/${user_id}`,  {
+                responseType: 'blob', // Important for handling file downloads
+            })
+    
+      // Create a URL for the file blob
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+
+        // Create a link element
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', file); // Set the file name
+
+        // Append the link to the body
+        document.body.appendChild(link);
+
+        // Programmatically click the link to trigger the download
+        link.click();
+
+        // Clean up and remove the link
+        link.parentNode.removeChild(link);
+
+        console.log("File download triggered");
     } catch (error) {
       set_feed_error(error?.response?.data.msg || error?.response?.data.errors || error.message)
     }
@@ -82,7 +103,9 @@ const FeedProvider = ({children}) => {
   
   const search_value = (e)=>{
     set_search(e.target.value)
-    console.log(search)
+    if (e.target.value === "") {
+      get_all_feeds()
+    }
   }
   const search_feed = async ()=>{
     try {

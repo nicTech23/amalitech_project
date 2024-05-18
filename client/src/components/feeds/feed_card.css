@@ -44,9 +44,14 @@
     border-top-left-radius: 16px;
     border-bottom-left-radius: 16px;
     width: 120px;
+    
 }
 .download-btn:hover{
-    background-color: rgb(72, 34, 3);
+    background-color: blue;
+}
+
+.download-btn:active {
+    background-color: blue;
 }
 
 /* Hide the toolbar */
