@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 const User = require("../model/user")
 const { comapare_password, hash_password } = require("../utils/bcrypt");
 const { generateToken, decodeToken } = require("../utils/jwt");
+const NodeMailer = require("../utils/nodeMailer");
 
 //POST
 //Route: http://localhost:8000/api/v1/user_auth-route/register
@@ -27,7 +28,12 @@ exports.Register = async (req, res) =>{
         const user = await User.create({ first_name, last_name, email, password:hashed_password, telephone})
        
         if (!user) throw new Error("Registration fails")
+        const token = generateToken(user._id, "2m")
         
+        const link = `http://localhost:3000/verify/${token}`
+
+        await NodeMailer(email, `<a href=${link}>Click to verify account</a>`, "Verify account", null)
+
         if (user) {
             return res.status(200).json({msg: "User registered successfully"})
         }
@@ -50,13 +56,21 @@ exports.User_login = async (req, res) =>{
         
         const user_password = user.password
 
+        const verify = user.verify
+
+        console.log(verify)
+
+
+        if (verify == false) throw new Error("account not verified")
+        
+
         // verifying user password
         const password_verify = comapare_password(password, user_password)
 
         if (!password_verify) throw new Error("Incorrect password" ) 
         
         // generating jwt token for the user
-        const token = generateToken(user.id, "1d")
+        const token = generateToken(user.id, "2d")
         
         //attaching token to the user session
         req.session.user_token = token
@@ -133,3 +147,25 @@ exports.Update_password = async (req, res) => {
     }
 }
 
+
+exports.Verify_account = async(req, res)=>{
+    try {
+        const { token } = req.params
+        const decode_token = decodeToken(token)
+
+        if (decode_token?.message === "jwt expired") throw new Error("Time out")
+        
+        if (decode_token?.message === "invalid token") throw new Error("Unauthorize access")
+
+        const { id } = decode_token
+
+        const update_verify = await User.findByIdAndUpdate({ _id: id }, { verify: true })
+
+        if(!update_verify) throw new Error("verification failed")
+        
+        return res.status(200).json({msg:"verified"})
+        
+    } catch (error) {
+        return res.status(500).json({ msg: error.message }) 
+    }
+}

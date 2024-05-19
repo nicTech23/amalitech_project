@@ -4,7 +4,8 @@ const { Router } = express
 
 const download_route = Router()
 
-download_route.get("/download-file/:document_id/:file/:user_id", download_file)
+//Route for downloas
+download_route.get("/download-file/:document_id/:file_name/", download_file)
 download_route.get("/get-all-downloads", Get_all_downloads)
 download_route.get("/downloads-for-each-file/:document_id", Downloads_for_each_file)
 

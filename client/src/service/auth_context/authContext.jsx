@@ -29,7 +29,7 @@ const AuthProvider = ({children}) =>{
     
     const [ error_message, set_error_message ] = useState(null)
     
-
+    const [verify, set_verify] = useState("Verify")
     // get signUp values from input fields
     const get_login_values = useCallback((e)=>{
         setLogin({...login, [ e.target.name ]: e.target.value })
@@ -186,6 +186,34 @@ const AuthProvider = ({children}) =>{
             }  
         }
     }
+
+    const handle_verify = async (navigate, token)=>{
+        try {
+             set_verify("Verifying...")
+            const response = await axios.get(`http://localhost:8000/api/v1/user_auth-route//verify-account/${token}`)
+            const data = await response.data
+            if (data) {
+                navigate("/")
+                set_verify("Verify")
+            }
+        } catch (error) {
+             const errors = error?.response?.data.msg || error?.response?.data.errors || error.message
+             set_error_message(errors)
+            // console.log(errors)
+            set_verify("Verify failed")
+            if (errors) {
+               const error_time_interval = setInterval(()=>{
+                   set_error_message(null)
+                    set_verify("Verify")
+               }, [ 5000 ])
+                
+                setTimeout(() => {
+                    clearInterval(error_time_interval);
+                }, 10000);
+            
+            }  
+        }
+    }
     return (
         <authContext.Provider value={{
                 get_login_values,
@@ -196,7 +224,9 @@ const AuthProvider = ({children}) =>{
                 get_forgot_password_value,
                 get_update_password_value,
                 forgot_password_button,
-                update_password_button
+                update_password_button,
+                handle_verify,
+                verify
             }}>
         {children}
     </authContext.Provider>

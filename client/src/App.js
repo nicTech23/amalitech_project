@@ -13,6 +13,9 @@ import Dashboard from "./screen/admin_dashboard/dashboard";
 
 import DocumentProvider from "./service/document_context";
 import FeedProvider from "./service/feeds_content";
+import AdminLogin from "./screen/auth/admin_login";
+import AdminSignup from "./screen/auth/admin_signup";
+import Verify from "./screen/verify";
 
 const auth = localStorage.getItem("user")
 const router = createBrowserRouter([
@@ -40,6 +43,18 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard/>
+  },
+  {
+    path: "/admin-login",
+    element: <AdminLogin/>
+  },
+  {
+    path: "/admin-signup",
+    element: <AdminSignup/>
+  },
+  {
+    path: "/verify/:token",
+    element: <Verify/>
   },
 ]);
 

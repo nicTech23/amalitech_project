@@ -60,9 +60,7 @@ const FeedProvider = ({children}) => {
     }
     try {
       set_send("sending...")
-      const user_id = localStorage.getItem("user")
-      console.log(user_id)
-      const response = await axios.post(`http://localhost:8000/api/v1/message-route/send-message/${feed_id}/${user_id}`, body)
+      const response = await axios.post(`http://localhost:8000/api/v1/message-route/send-message/${feed_id}/`, body, {withCredentials:true})
       set_send("send")
 
       if (response.status === 200) {
@@ -84,8 +82,7 @@ const FeedProvider = ({children}) => {
 
   const post_download = async(feed_id, file)=>{
     try {
-      const user_id = localStorage.getItem("user")
-      const response = await axios.get(`http://localhost:8000/api/v1/download-route/download-file/${feed_id}/${file}/${user_id}`,  {
+      const response = await axios.get(`http://localhost:8000/api/v1/download-route/download-file/${feed_id}/${file}/`,  {
                 responseType: 'blob', // Important for handling file downloads
             })
     
