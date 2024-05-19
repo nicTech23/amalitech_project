@@ -28,7 +28,7 @@ exports.Register = async (req, res) =>{
         const user = await User.create({ first_name, last_name, email, password:hashed_password, telephone})
        
         if (!user) throw new Error("Registration fails")
-        const token = generateToken(user._id, "2m")
+        const token = generateToken(user._id, "1d")
         
         const link = `http://localhost:3000/verify/${token}`
 
@@ -50,7 +50,7 @@ exports.User_login = async (req, res) =>{
         const { email, password } = req.body
 
         //finding User in the database
-        const user = await User.findOne({ email })
+        const user = await User.findOne({email})
 
         if (!user) throw new Error("User not found")
         
@@ -63,7 +63,6 @@ exports.User_login = async (req, res) =>{
 
         if (verify == false) throw new Error("account not verified")
         
-
         // verifying user password
         const password_verify = comapare_password(password, user_password)
 
