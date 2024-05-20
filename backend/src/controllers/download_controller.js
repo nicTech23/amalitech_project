@@ -21,7 +21,7 @@ exports.download_file = async(req, res) =>{
         
         if (!download) throw new Error("Download fails")
         
-        return res.json({msg: "download successfully"})
+       // return res.json({msg: "download successfully"})
         
     } catch (error) {
         return res.status(500).json({msg: error.message})
@@ -53,7 +53,8 @@ exports.Downloads_for_each_file = async(req, res)=>{
     try {
         //extracting file id from params
         const { document_id } = req.params 
-        
+    
+
         const admin_token = req.session.admin_token
 
         if(typeof admin_token == "undefined")throw new Error("Login as admin")

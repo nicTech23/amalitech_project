@@ -3,7 +3,7 @@ const Admin = require("../model/admin")
 const { hash_password, comapare_password } = require("../utils/bcrypt");
 const { generateToken } = require("../utils/jwt");
 
-exports.Admin_register = (req, res) =>{
+exports.Admin_register = async(req, res) =>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array()[0].msg });
@@ -11,9 +11,10 @@ exports.Admin_register = (req, res) =>{
     try {
         const { name, email, password } = req.body
         
-        const find_admin = Admin.findOne({ email })
+        const find_admin = await Admin.findOne({ email })
         
-        if (!find_admin) throw new Error("Admin already exists")
+        console.log(find_admin)
+        if (find_admin) throw new Error("Admin already exists")
 
         const password_hash = hash_password(password)
         
@@ -43,6 +44,7 @@ exports.Admin_login = async (req, res) =>{
         if (!password_verify) throw new Error("Incorrect password" ) 
         
         const token = generateToken(admin.id, "2d")
+        console.log(token)
         
         req.session.admin_token = token
 

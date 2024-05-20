@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import AuthLayout from '../../layout/authLayout'
 import Fields from '../../components/auth/fields'
+import { adminContext } from '../../service/auth_context/admin_context'
 
 const AdminLogin = () => {
+  const { get_admin_login_values, admin_login_button } = useContext(adminContext)
+  
   return (
      <AuthLayout>
-          <Fields data={data} marginTop={8} header="Login as Admin" autLink="Signup as Admin" forgetPassword="" event={null} handle={null} nav={"admin-signup"} />
+          <Fields data={data} marginTop={8} header="Login as Admin" autLink="Signup as Admin" forgetPassword="" event={get_admin_login_values} handle={admin_login_button} nav={"admin-signup"} />
     </AuthLayout>
   )
 }

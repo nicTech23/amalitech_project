@@ -5,7 +5,7 @@ import ForgetPassword from "./screen/auth/forget_password";
 import UpdatePassword from "./screen/auth/update_password";
 import Feeds from "./screen/feeds/feeds";
 import Dashboard from "./screen/admin_dashboard/dashboard";
-
+import AdminProvider from "./service/auth_context/admin_context";
  import  {
   createBrowserRouter,
   RouterProvider,
@@ -61,9 +61,11 @@ const router = createBrowserRouter([
 function App() {
   return (
     <FeedProvider>
-    <DocumentProvider>
-      <RouterProvider router={router}>
-      </RouterProvider>
+      <DocumentProvider>
+        <AdminProvider>
+          <RouterProvider router={router}>
+          </RouterProvider>
+        </AdminProvider>
     </DocumentProvider>
     </FeedProvider>
   );
