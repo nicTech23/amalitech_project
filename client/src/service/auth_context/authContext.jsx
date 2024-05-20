@@ -15,7 +15,6 @@ const AuthProvider = ({children}) =>{
         telephone: "",
         last_name: "",
         first_name: "",
-        telephone:""
     })
     
     const [ update_password, set_update_password ] = useState({

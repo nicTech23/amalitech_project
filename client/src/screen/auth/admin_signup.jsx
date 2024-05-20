@@ -5,7 +5,7 @@ import Fields from '../../components/auth/fields'
 const AdminSignup = () => {
   return (
      <AuthLayout>
-        <Fields data={data} marginTop={7} header="SignUp as Admin" autLink="login as admin" forgetPassword={null} event={null} handle={null} />
+        <Fields data={data} marginTop={7} header="SignUp as Admin" autLink="login as admin" forgetPassword={null} event={null} handle={null} nav={"admin-login"} />
     </AuthLayout>
   )
 }

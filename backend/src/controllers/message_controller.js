@@ -56,6 +56,7 @@ exports.send_message = async (req, res) => {
     }
 }
 
+
 //GET
 //ROUTE: http://localhost:8000/api/v1/message-route/get-all-messages/
 //This route let admin to get all files send to an email by user
@@ -78,6 +79,16 @@ exports.get_all_messages = async(req, res)=>{
 exports.Messages_for_each_file = async (req, res) =>{
     try {
         const { document_id } = req.params
+
+        const admin_token = req.session.admin_token
+
+        if(typeof admin_token == "undefined")throw new Error("Login as admin")
+        
+        const decode_token = decodeToken(admin_token)
+
+        if (decode_token?.message === "jwt expired") throw new Error("Time out")
+        
+        if (decode_token?.message === "invalid token") throw new Error("Unauthorize access")
         
         //Counting messeages sent for each document in the database
         const total_messages = await Message.countDocuments({ document: document_id })

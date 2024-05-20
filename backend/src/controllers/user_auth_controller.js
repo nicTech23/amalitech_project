@@ -28,6 +28,7 @@ exports.Register = async (req, res) =>{
         const user = await User.create({ first_name, last_name, email, password:hashed_password, telephone})
        
         if (!user) throw new Error("Registration fails")
+        
         const token = generateToken(user._id, "1d")
         
         const link = `http://localhost:3000/verify/${token}`
@@ -35,7 +36,7 @@ exports.Register = async (req, res) =>{
         await NodeMailer(email, `<a href=${link}>Click to verify account</a>`, "Verify account", null)
 
         if (user) {
-            return res.status(200).json({msg: "User registered successfully"})
+            return res.status(200).json({msg: "User registered successfully", token})
         }
     } catch (error) {
         return res.status(504).json({msg: error.message})
@@ -61,7 +62,7 @@ exports.User_login = async (req, res) =>{
         console.log(verify)
 
 
-        if (verify == false) throw new Error("account not verified")
+        if (verify === false) throw new Error("account not verified")
         
         // verifying user password
         const password_verify = comapare_password(password, user_password)
@@ -127,7 +128,7 @@ exports.Update_password = async (req, res) => {
         if (decode?.message === "invalid token") throw new Error("Unauthorize access")
         
         //extract user user email from the decoded token
-        const { id: { email } } = decode
+        const { id: { email } } = decode  
 
         console.log(email)
         

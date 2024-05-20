@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
         default:"user"
     },
     verify: {
-        type: String,
+        type: Boolean,
         default:false
     },
 }, {

@@ -1,7 +1,9 @@
 const Download = require("../model/download");
 const User = require("../model/user");
 const path = require("path")
-const fs = require("fs")
+const fs = require("fs");
+const { decodeToken } = require("../utils/jwt");
+const { error } = require("console");
 
 //GET
 //ROUTE: http://localhost:8000/api/v1/download-route/download-file/document_id/file_name/
@@ -39,26 +41,36 @@ exports.Get_all_downloads = async(req, res)=>{
 
         return res.status(200).json({ msg: downloaded })
     } catch (error) {
-        
+         return res.status(500).json({msg: error.message})
     }
 }
 
 
 //GET
-//ROUTE: http://localhost:8000/api/v1/download-route/downloads-for-each-file/:document_id
+//ROUTE: http://localhost:8000/api/v1/download-route/downloads-for-each-file/document_id
 //this route let the admin see the number of downloads for each file
 exports.Downloads_for_each_file = async(req, res)=>{
     try {
         //extracting file id from params
-        const { document_id } = req.params
+        const { document_id } = req.params 
         
-        //getting the number of downloads for the file id
+        const admin_token = req.session.admin_token
+
+        if(typeof admin_token == "undefined")throw new Error("Login as admin")
+        
+        const decode_token = decodeToken(admin_token)
+
+        if (decode_token?.message === "jwt expired") throw new Error("Time out")
+        
+        if (decode_token?.message === "invalid token") throw new Error("Unauthorize access")
+       
+       // getting the number of downloads for the file id
         const total_downloaded = await Download.countDocuments({document:document_id})
 
         if (!total_downloaded || total_downloaded.length <=0) return res.json({ msg: 0 })
         
         return res.status(200).json({ msg: total_downloaded })
     } catch (error) {
-        
+         return res.status(500).json({msg: error.message})
     }
 }

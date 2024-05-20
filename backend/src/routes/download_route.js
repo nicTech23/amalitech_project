@@ -9,4 +9,4 @@ download_route.get("/download-file/:document_id/:file_name/", download_file)
 download_route.get("/get-all-downloads", Get_all_downloads)
 download_route.get("/downloads-for-each-file/:document_id", Downloads_for_each_file)
 
-module.exports = download_route
+module.exports = download_route 

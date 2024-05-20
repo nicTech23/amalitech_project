@@ -9,7 +9,7 @@ const Login = () => {
   
   return (
     <AuthLayout>
-       <Fields data={data} marginTop={8} header="Login" autLink="Signup"forgetPassword="forgot password" event={get_login_values} handle={login_button} />
+       <Fields data={data} marginTop={8} header="Login as user" autLink="Signup as a user"forgetPassword="forgot password" event={get_login_values} handle={login_button} nav={"signup"}/>
     </AuthLayout>
   )
 }

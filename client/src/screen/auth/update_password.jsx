@@ -6,7 +6,7 @@ const UpdatePassword = () => {
 const {get_update_password_value, update_password_button} = useContext(authContext)
   return (
       <AuthLayout>
-        <Fields data={data} marginTop={8} header="Change password" autLink="login" forgetPassword={null} event={get_update_password_value} handle={update_password_button} />
+        <Fields data={data} marginTop={8} header="Change password" autLink="login" forgetPassword={null} event={get_update_password_value} handle={update_password_button} nav={"update-password"}/>
       </AuthLayout>
   )
 }

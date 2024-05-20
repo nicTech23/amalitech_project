@@ -1,0 +1,74 @@
+const { createContext, useState, useCallback } = require("react");
+import axios from "axios"
+
+const adminContext = createContext(null)
+
+
+
+
+const AdminProvider = () => {
+    
+    const [ admin_login, set_admin_login ] = useState({
+        email: "",
+        password:""
+    })
+
+     const [ admin_signup, set_admin_sigup ] = useState({
+        email: "",
+        password: "",
+        telephone: "",
+        name: "",
+     })
+    
+    const [ error_message, set_error_message ] = useState(null)
+      const get_admin_login_values = useCallback((e)=>{
+            set_admin_login({...admin_login, [ e.target.name ]: e.target.value })
+        },[admin_login])
+
+    const get_admin_signup_values = useCallback((e)=>{
+        set_admin_sigup({ ...admin_signup, [ e.target.name ]: e.target.value })
+    }, [admin_signup])
+
+    const admin_login_button = async(navigate)=>{
+        const body = {
+            email: admin_login.email,
+            password:admin_login.password
+        }
+
+        try {
+            const response = await axios.post(`http://localhost:8000/api/v1/admin-route/admin-login`, body, {withCredentials:true})
+
+            if (response.status === 200) {
+                const data = await response.data
+                localStorage.setItem("user", data.data)
+                set_admin_login({email: "", password:""})
+                navigate("/dashboard")
+            }
+
+        } catch (error) {
+            const errors = error?.response?.data.msg || error?.response?.data.errors || error.message
+            set_error_message(errors)
+            console.log(error)
+            if (errors) {
+               const error_time_interval = setInterval(()=>{
+                   set_error_message(null)
+
+               }, [ 5000 ])
+                
+                setTimeout(() => {
+                    clearInterval(error_time_interval);
+                }, 10000);
+            
+            }  
+        }
+        
+    }
+
+  return (
+    <adminContext.Provider value={{}}>
+      
+    </adminContext.Provider>
+  )
+}
+
+export default AdminProvider

@@ -2,14 +2,15 @@ import React, { useContext } from 'react'
 import "./fields.css"
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
-const Fields = ({data, marginTop, header, autLink, forgetPassword, event, handle}) => {
+import { Button } from '@mui/material'
+const Fields = ({data, marginTop, header, autLink, forgetPassword, event, handle, nav}) => {
   const navigate = useNavigate()
   
   return (
     <div className='field' style={{marginTop: `${marginTop}%`}}>
       <div className='heading'>
         <h1>{header}</h1>
-        <Link className='auth_link' to={ autLink === "login"? "/": `/${autLink}`}>
+        <Link className='auth_link' to={`/${nav}`}>
             <p>{autLink}</p>
         </Link>
       </div>
@@ -33,7 +34,15 @@ const Fields = ({data, marginTop, header, autLink, forgetPassword, event, handle
                 )
              }
         </form>
-        <button onClick={()=>handle(navigate )} className='auth_btn'>{ header}</button>
+      <Button variant="contained" sx={{
+        backgroundColor: "rgb(228, 107, 8);",
+        '&:hover': {
+            backgroundColor: 'rgb(228, 107, 8);',
+            transform: 'scale(1.1)'
+        },
+        padding: "10px",
+        marginTop:"10px"
+        }} onClick={()=>handle(navigate )} className='auth_btn'>{ header}</Button>
     </div>
   )
 }

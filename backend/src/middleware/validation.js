@@ -18,4 +18,12 @@ const message_validation = [
 ];
 
 
-module.exports = {register_validation, message_validation}
+const admin_register_validation = [
+  // Validate name field
+  body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long'),
+  // Validate email field
+  body('email').isEmail().withMessage('Please provide a valid email address').trim(),
+  body("name").notEmpty().withMessage("Provide first name").trim(),
+];
+
+module.exports = {register_validation, message_validation, admin_register_validation}
