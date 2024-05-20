@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import get_table_field from '../../service/table_function';
+import { Alert, AlertTitle, Stack } from '@mui/material';
 
 
 
@@ -37,6 +38,7 @@ function createData(name, calories, fat, carbs, protein) {
 }
 
 const [rows, setRows] = useState([])
+const [error, setError] = useState(null)
 
 // const rows = [
 //   createData('Frozen yoghurt', 159, 6.0, 24, ),
@@ -47,11 +49,26 @@ const [rows, setRows] = useState([])
 // ];
 
   useEffect(()=>{
-    get_table_field(rows, createData, setRows)
+    get_table_field(setError, createData, setRows)
   },[])
   
+
+  if (error) {
+    console.log("table", error)
+  }
+
+  
   return (
-     <TableContainer component={Paper}>
+    <TableContainer component={Paper}>
+      {error && (
+         <Stack sx={{width:"50%", position:"absolute", right:"0", top:"12%"}}>
+            <Alert severity="error">
+                <AlertTitle>Error</AlertTitle>
+                {error}
+              </Alert>
+          </Stack>
+       )}
+       
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>

@@ -5,13 +5,19 @@ import FeedCard from '../../components/feeds/feed_card'
 import "./feeds.css"
 import Modal from '../../components/feeds/modal'
 import { feeds_context } from '../../service/feeds_content'
-const Feeds = () =>
-{
+import { useNavigate } from 'react-router-dom'
+
+const Feeds = () =>{
   const {feed, get_all_feeds, modal } = useContext(feeds_context)
-  
+  const navigate = useNavigate()
+
+  const user = localStorage.getItem("user")
 
   useEffect(()=>{
     get_all_feeds()
+    if (!user) {
+      navigate("/")
+    }
   },[])
   
   return (

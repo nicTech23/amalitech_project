@@ -1,5 +1,5 @@
 import axios from "axios"
-const get_table_field = async (rows, creatData, setRows) => {
+const get_table_field = async (setError, creatData, setRows) => {
     try {
     
         const document_response = await axios.get(`http://localhost:8000/api/v1/document-route/get-all-files`, {withCredentials:true});
@@ -21,7 +21,14 @@ const get_table_field = async (rows, creatData, setRows) => {
         const resolvedPromises = await Promise.all(promises);
         setRows(resolvedPromises);
     } catch (error) {
-        console.log(error.message);
+        setError(error?.response?.data.msg || error?.response?.data.errors || error.message)
+       const timer = setInterval(()=>{
+            setError(null)
+          }, [2000])
+
+          setTimeout(() => {
+            clearInterval(timer)
+          }, 2000);
     }
 };
 export default get_table_field

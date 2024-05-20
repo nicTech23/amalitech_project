@@ -46,9 +46,9 @@ exports.Admin_login = async (req, res) =>{
         const token = generateToken(admin.id, "2d")
         console.log(token)
         
-        req.session.admin_token = token
+        req.session.admin_token = token 
 
-        return res.status(200).json({ms: "login successfull" }) 
+        return res.status(200).json({ms: "login successfull", data: admin._id}) 
         
     } catch (error) {
         return res.status(504).json({ msg: error.message }) 

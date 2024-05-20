@@ -17,7 +17,7 @@ import AdminLogin from "./screen/auth/admin_login";
 import AdminSignup from "./screen/auth/admin_signup";
 import Verify from "./screen/verify";
 
-const auth = localStorage.getItem("user")
+
 const router = createBrowserRouter([
 
   {
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/feeds",
-    element: auth ? <Feeds/> : <Login/>
+    element:<Feeds/> 
   },
   {
     path: "/dashboard",

@@ -84,6 +84,7 @@ const FeedProvider = ({children}) => {
     try {
       const response = await axios.get(`http://localhost:8000/api/v1/download-route/download-file/${feed_id}/${file}/`,  {
                 responseType: 'blob', // Important for handling file downloads
+                withCredentials:true
             })
     
       // Create a URL for the file blob
@@ -125,7 +126,7 @@ const FeedProvider = ({children}) => {
   const search_feed = async ()=>{
     try {
       if (search !=="") {
-        const response = await axios.get(`http://localhost:8000/api/v1/document-route/search-file?search=${search}`)
+        const response = await axios.get(`http://localhost:8000/api/v1/document-route/search-file?search=${search}`, {withCredentials:true})
       const data = await response.data
         if (data?.msg !== "No files found") {
           set_feed(data?.msg)
@@ -141,7 +142,14 @@ const FeedProvider = ({children}) => {
         }
       }
     } catch (error) {
-      console.log(error)
+      set_feed_error(error?.response?.data.msg || error?.response?.data.errors || error.message)
+       const timer = setInterval(()=>{
+            set_feed_error(null)
+          }, [2000])
+
+          setTimeout(() => {
+            clearInterval(timer)
+          }, 2000);
     }
   }
   return (

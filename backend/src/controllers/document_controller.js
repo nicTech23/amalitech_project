@@ -1,4 +1,5 @@
 const Document = require("../model/document")
+const { decodeToken } = require("../utils/jwt")
 
 exports.Create_document = async(req, res)=>{
     try {
@@ -39,7 +40,17 @@ exports.Get_type_of_file = async ()=>{
 exports.Search_file = async (req, res) => {
     try {
         const { search } = req.query;
-        console.log(search)
+         //Extracting user token from the session 
+        const user_token = req.session?.user_token
+
+        if(typeof user_token == "undefined")throw new Error("Login as user to search for a file")
+
+        //Decoding the token to get user id
+        const decode = decodeToken(user_token)
+        
+        if (decode?.message === "jwt expired") throw new Error("Time out")
+        
+        if (decode?.message === "invalid token") throw new Error("Unauthorize access")
 
         const searchResults = await Document.find({
             $or: [

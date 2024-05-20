@@ -25,6 +25,8 @@ exports.send_message = async (req, res) => {
         //Extracting user token from the session 
         const user_token = req.session?.user_token
 
+        if(typeof user_token == "undefined")throw new Error("Login as user to send mail")
+
         //Decoding the token to get user id
         const decode = decodeToken(user_token)
         

@@ -11,9 +11,22 @@ const { error } = require("console");
 exports.download_file = async(req, res) =>{
     try {
         const { document_id, file_name } = req.params
+
+        //Extracting user token from the session 
+        const user_token = req.session?.user_token
+
+        if(typeof user_token == "undefined")throw new Error("Login as user to download a file")
+
+        //Decoding the token to get user id
+        const decode = decodeToken(user_token)
+        
+        if (decode?.message === "jwt expired") throw new Error("Time out")
+        
+        if (decode?.message === "invalid token") throw new Error("Unauthorize access")
+        
         
         //sending the downloaded file to the client
-       res.download(`./public/files/${file_name}`)
+        res.download(`./public/files/${"file_1716217818906.pdf"}`) 
         
         //storing the download details to the database
         const download = await Download.create({ document: document_id})

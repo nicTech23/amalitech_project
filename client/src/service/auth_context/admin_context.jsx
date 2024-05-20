@@ -39,8 +39,10 @@ const AdminProvider = ({children}) => {
 
             if (response.status === 200) {
                 const data = await response.data
+                const id = await response.data.data
                 localStorage.setItem("user", data.data)
-                set_admin_login({email: "", password:""})
+                set_admin_login({ email: "", password: "" })
+                localStorage.setItem("admin", id)
                 navigate("/dashboard")
             }
 

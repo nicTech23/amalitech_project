@@ -59,13 +59,10 @@ const AuthProvider = ({children}) =>{
 
         try {
             const response = await axios.post(`http://localhost:8000/api/v1/user_auth-route/user-login`, body, {withCredentials:true})
-
-            if (response.status === 200) {
                 const data = await response.data
                 localStorage.setItem("user", data.data)
                 setLogin({email: "", password:""})
                 navigate("/feeds")
-            }
 
         } catch (error) {
             const errors = error?.response?.data.msg || error?.response?.data.errors || error.message
