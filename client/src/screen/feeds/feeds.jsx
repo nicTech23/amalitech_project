@@ -16,7 +16,7 @@ const Feeds = () =>{
   useEffect(()=>{
     get_all_feeds()
     if (!user) {
-      navigate("/")
+      navigate("/user-login")
     }
   },[])
   

@@ -43,7 +43,7 @@ const AdminProvider = ({children}) => {
                 localStorage.setItem("user", data.data)
                 set_admin_login({ email: "", password: "" })
                 localStorage.setItem("admin", id)
-                navigate("/dashboard")
+                navigate("/admin-dashboard")
             }
 
         } catch (error) {

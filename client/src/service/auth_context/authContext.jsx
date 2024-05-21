@@ -102,7 +102,7 @@ const AuthProvider = ({children}) =>{
 
             if (response.status === 200) {
                 console.log("navigate")
-                navigate("/")
+                navigate("/user-login")
                 set_register("Sign up as a user")
                 setSigup({})
             }
@@ -169,7 +169,7 @@ const AuthProvider = ({children}) =>{
                 const data = await response.data
                  console.log(data)
                  set_update_password({ password: "", confirm_password: "" })
-                 navigate("/")
+                 navigate("/user-login")
             }
         } catch (error) {
             const errors = error?.response?.data.msg || error?.response?.data.errors || error.message
@@ -195,7 +195,7 @@ const AuthProvider = ({children}) =>{
             const response = await axios.get(`http://localhost:8000/api/v1/user_auth-route//verify-account/${token}`)
             const data = await response.data
             if (data) {
-                navigate("/")
+                navigate("/user-login")
                 set_verify("Verify")
             }
         } catch (error) {
@@ -221,7 +221,7 @@ const AuthProvider = ({children}) =>{
         try {
             const response = await axios.get(`http://localhost:8000/api/v1/user_auth-route/logout/`, { withCredentials: true })
             localStorage.removeItem("user")
-            navigate("/")
+            navigate("/user-login")
         } catch (error) {
             console.log(error)
              const errors = error?.response?.data.msg || error?.response?.data.errors || error.message

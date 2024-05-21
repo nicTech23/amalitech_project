@@ -61,7 +61,7 @@ exports.send_message = async (req, res) => {
 
 
 // GET
-// ROUTE: http://localhost:8000/api/v1/message-route/messages-for-each-file/document_id
+// ROUTE: http://localhost:8000/api/v1/message-route/messages-for-each-file/:document_id
 // This route allows the admin to see the total number of each file sent to an email by users
 exports.Messages_for_each_file = async (req, res) => {
     try {

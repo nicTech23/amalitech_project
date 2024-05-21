@@ -21,11 +21,11 @@ import Verify from "./screen/verify";
 const router = createBrowserRouter([
 
   {
-    path: "/",
+    path: "/user-login",
     element: <Login/>
   },
   {
-    path: "/signup",
+    path: "/user-signup",
     element: <Signup/>
   },
   {
@@ -41,7 +41,7 @@ const router = createBrowserRouter([
     element:<Feeds/> 
   },
   {
-    path: "/dashboard",
+    path: "/admin-dashboard",
     element: <Dashboard/>
   },
   {

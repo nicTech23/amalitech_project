@@ -8,7 +8,7 @@ const Signup = () => {
     const { get_signup_values, signup_button, register} = useContext(authContext)
     return (
       <AuthLayout>
-        <Fields data={data} marginTop={7} header={register} autLink="Login as a user" forgetPassword={null} event={get_signup_values} handle={signup_button} nav={""} />
+        <Fields data={data} marginTop={7} header={register} autLink="Login as a user" forgetPassword={null} event={get_signup_values} handle={signup_button} nav={"user-login"} />
     </AuthLayout>
   )
 }
