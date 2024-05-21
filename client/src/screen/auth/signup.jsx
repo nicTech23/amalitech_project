@@ -5,10 +5,10 @@ import { authContext } from '../../service/auth_context/authContext'
 
 
 const Signup = () => {
-    const { get_signup_values, signup_button} = useContext(authContext)
+    const { get_signup_values, signup_button, register} = useContext(authContext)
     return (
       <AuthLayout>
-        <Fields data={data} marginTop={7} header="SignUp as user" autLink="Login as a user" forgetPassword={null} event={get_signup_values} handle={signup_button} nav={""} />
+        <Fields data={data} marginTop={7} header={register} autLink="Login as a user" forgetPassword={null} event={get_signup_values} handle={signup_button} nav={""} />
     </AuthLayout>
   )
 }

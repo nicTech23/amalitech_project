@@ -26,7 +26,8 @@ const DocumentProvider = ({children}) => {
     }
 
     const submit_message = async ()=>{
-        if (Object.values(document).includes("")) {
+        try {
+            if (Object.values(document).includes("")) {
             setMessage("All fields required")
              const timer = setInterval(()=>{
                     setMessage(null)
@@ -48,6 +49,7 @@ const DocumentProvider = ({children}) => {
                 headers: {
                 'Content-Type': 'multipart/form-data',
                 },
+                withCredentials:true
             })
 
             if (response.status === 200) {
@@ -66,9 +68,11 @@ const DocumentProvider = ({children}) => {
                 setTimeout(()=>{
                     clearTimeout(timer)
                 }, [2000])
-            }
-            
-           
+            } 
+        }
+        } catch (error) {
+            setMessage(error?.response?.data.msg || error?.response?.data.errors || error.message)
+            console.log(error)
         }
     }
 

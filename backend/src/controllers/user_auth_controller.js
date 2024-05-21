@@ -10,7 +10,7 @@ const NodeMailer = require("../utils/nodeMailer");
 exports.Register = async (req, res) =>{
    
     // Check for validation errors
-    const errors = validationResult(req);
+    const errors = validationResult(req); 
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array()[0].msg });
     }
@@ -54,6 +54,12 @@ exports.Register = async (req, res) =>{
 //POST
 //Route: http://localhost:8000/api/v1/user_auth-route/user-login
 exports.User_login = async (req, res) =>{
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array()[0].msg });
+    }
+
     try {
         const { email, password } = req.body
 
@@ -63,15 +69,11 @@ exports.User_login = async (req, res) =>{
         // If user not found, throw error
         if (!user) throw new Error("User not found")
         
-        // const user_password = user.password
-
-        // const verify = user.verify
-
         // Get user password and verification status
         const { password: user_password, verify } = user;
 
         // If account not verified, throw error
-        if (!verify) throw new Error("account not verified")
+        if (!verify) throw new Error("check your email to verify your account")
         
        // Verify user password
         const password_verify = comapare_password(password, user_password)
@@ -110,13 +112,13 @@ exports.Forgot_password = async (req, res) => {
         }
 
         // Generate JWT token for the user to reset password
-        const token = generateToken({ email: user.email, id: user.id }, "1m");
+        const token = generateToken({ email: user.email, id: user.id }, "5m");
 
         // Attach token to the user session
         req.session.forget_token = token;
 
         // Return success response
-        return res.status(200).json({ msg: "You can now set your password within 3m from now" });
+        return res.status(200).json({ msg: "You can now set your password within 5m from now" });
 
     } catch (error) {
         // Handle specific error
@@ -173,10 +175,8 @@ exports.Update_password = async (req, res) => {
 };
 
 
-
-
 //GET
-//Route: http://localhost:8000/api/v1/user_auth-route/verify-account/:token
+//http://localhost:8000/api/v1/user_auth-route//verify-account/token
 exports.Verify_account = async (req, res) => {
     try {
         const { token } = req.params;
@@ -204,4 +204,20 @@ exports.Verify_account = async (req, res) => {
     }
 };
 
+//GET
+//http://localhost:8000/api/v1/user_auth-route/logout
+exports.logout = async(req, res)=>{
+    try {
+        if (req.session.user_token) {
+            delete req.session.user_token
 
+            console.log(req.session.user_token)
+            return res.status(200).json({ msg: 'Logout successful' });
+        } else {
+            throw new Error("logout failed")
+        }
+        
+    } catch (error) {
+        return res.status(500).json({ msg:error.message });
+    }
+}

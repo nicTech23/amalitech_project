@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 
 const NodeMailer = (email, html, subject, attachments = [])=> {
     const mailOptions = {
-        from: "nictech23@gmail.com",
+        from:process.env.EMAIL,
         to: email,
         subject,
         html,

@@ -5,41 +5,73 @@ const fs = require("fs");
 const { decodeToken } = require("../utils/jwt");
 const { error } = require("console");
 
-//GET
-//ROUTE: http://localhost:8000/api/v1/download-route/download-file/document_id/file_name/
-//this route allow the user to download file
-exports.download_file = async(req, res) =>{
+
+
+// GET
+// ROUTE: http://localhost:8000/api/v1/download-route/download-file/document_id/file_name/
+// This route allows the user to download a file
+exports.download_file = async (req, res) => {
     try {
-        const { document_id, file_name } = req.params
+        // Extract document_id and file_name from request parameters
+        const { document_id, file_name } = req.params;
 
-        //Extracting user token from the session 
-        const user_token = req.session?.user_token
+        // // Extract user token from the session 
+        // const user_token = req.session?.user_token;
 
-        if(typeof user_token == "undefined")throw new Error("Login as user to download a file")
+        // // If user is not logged in, throw error
+        // if (typeof user_token === "undefined") throw new Error("Login as user to download a file");
 
-        //Decoding the token to get user id
-        const decode = decodeToken(user_token)
+        // // Decode the token to get user id
+        // const decode = decodeToken(user_token);
         
-        if (decode?.message === "jwt expired") throw new Error("Time out")
+        // // Handle expired token
+        // if (decode?.message === "jwt expired") throw new Error("Time out");
         
-        if (decode?.message === "invalid token") throw new Error("Unauthorize access")
+        // // Handle invalid token
+        // if (decode?.message === "invalid token") throw new Error("Unauthorized access");
         
+        // Sending the downloaded file to the client
+        res.download(`./public/files/${file_name}`); 
         
-        //sending the downloaded file to the client
-        res.download(`./public/files/${"file_1716217818906.pdf"}`) 
-        
-        //storing the download details to the database
-        const download = await Download.create({ document: document_id})
+        // Storing the download details to the database
+        const download = await Download.create({ document: document_id });
 
+        // If download creation fails, throw error
+        if (!download) throw new Error("Download fails");
         
-        if (!download) throw new Error("Download fails")
-        
-       // return res.json({msg: "download successfully"})
+        // Return success response (optional)
+        // return res.json({ msg: "Download successfully" });
         
     } catch (error) {
-        return res.status(500).json({msg: error.message})
+        // Handle errors
+        return res.status(500).json({ msg: error.message });
     }
-}
+};
+
+
+
+// GET
+// ROUTE: http://localhost:8000/api/v1/download-route/downloads-for-each-file/document_id
+// This route allows the admin to see the number of downloads for each file
+exports.Downloads_for_each_file = async (req, res) => {
+    try {
+        // Extract file id from request parameters
+        const { document_id } = req.params;
+    
+       // Get the number of downloads for the file id
+        const total_downloaded = await Download.countDocuments({ document: document_id });
+
+        // If no downloads found, return 0
+        if (!total_downloaded || total_downloaded.length <= 0) return res.json({ msg: 0 });
+        
+        // Return total number of downloads for the file
+        return res.status(200).json({ msg: total_downloaded });
+    } catch (error) {
+         // Handle errors
+         return res.status(500).json({ msg: error.message });
+    }
+};
+
 
 //GET
 //ROUTE: http://localhost:8000/api/v1/download-route/get-all-downloads
@@ -53,37 +85,6 @@ exports.Get_all_downloads = async(req, res)=>{
         if (downloaded.length <=0 || !downloaded) return res.status(400).json({ msg: "Now downloaded file" })
 
         return res.status(200).json({ msg: downloaded })
-    } catch (error) {
-         return res.status(500).json({msg: error.message})
-    }
-}
-
-
-//GET
-//ROUTE: http://localhost:8000/api/v1/download-route/downloads-for-each-file/document_id
-//this route let the admin see the number of downloads for each file
-exports.Downloads_for_each_file = async(req, res)=>{
-    try {
-        //extracting file id from params
-        const { document_id } = req.params 
-    
-
-        const admin_token = req.session.admin_token
-
-        if(typeof admin_token == "undefined")throw new Error("Login as admin")
-        
-        const decode_token = decodeToken(admin_token)
-
-        if (decode_token?.message === "jwt expired") throw new Error("Time out")
-        
-        if (decode_token?.message === "invalid token") throw new Error("Unauthorize access")
-       
-       // getting the number of downloads for the file id
-        const total_downloaded = await Download.countDocuments({document:document_id})
-
-        if (!total_downloaded || total_downloaded.length <=0) return res.json({ msg: 0 })
-        
-        return res.status(200).json({ msg: total_downloaded })
     } catch (error) {
          return res.status(500).json({msg: error.message})
     }

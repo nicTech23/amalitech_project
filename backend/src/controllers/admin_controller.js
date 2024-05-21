@@ -3,57 +3,81 @@ const Admin = require("../model/admin")
 const { hash_password, comapare_password } = require("../utils/bcrypt");
 const { generateToken } = require("../utils/jwt");
 
-exports.Admin_register = async(req, res) =>{
+
+
+
+
+// Endpoint for admin login
+//POST
+//http://localhost:8000/api/v1/admin-route/register-admin
+exports.Admin_register = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array()[0].msg });
     }
     try {
-        const { name, email, password } = req.body
+        // Extract data from request body
+        const { name, email, password } = req.body;
         
-        const find_admin = await Admin.findOne({ email })
+        // Check if admin with given email already exists
+        const find_admin = await Admin.findOne({ email });
         
-        console.log(find_admin)
-        if (find_admin) throw new Error("Admin already exists")
+        // If admin already exists, throw error
+        if (find_admin) throw new Error("Admin already exists");
 
-        const password_hash = hash_password(password)
+        // Hash the password
+        const password_hash = hash_password(password);
         
-        const admin = Admin.create({ name, email, password: password_hash })
+        // Create new admin
+        const admin = Admin.create({ name, email, password: password_hash });
         
-        if (!admin) throw new Errow("Registeration fails")
+        // If admin creation fails, throw error
+        if (!admin) throw new Error("Registration fails");
         
-        return res.status(200).json({msg: "Registeration successfull"})
+        // Return success response
+        return res.status(200).json({ msg: "Registration successful" });
     } catch (error) {
-        return res.status(500).json({msg: error.message})
+        // Handle errors
+        return res.status(500).json({ msg: error.message });
     }
-}
+};
 
 
-exports.Admin_login = async (req, res) =>{
+
+//Endpoint to register a new admin
+//POST
+//Route: http://localhost:8000/api/v1/admin-route/admin-login
+exports.Admin_login = async (req, res) => {
     try {
-        const { email, password } = req.body
+        // Extract email and password from request body
+        const { email, password } = req.body;
 
-        const admin = await Admin.findOne({ email })
+        // Find admin in the database
+        const admin = await Admin.findOne({ email });
 
-        if (!admin) throw new Error("admin not found")
+        // If admin not found, throw error
+        if (!admin) throw new Error("Admin not found");
         
-        const admin_password = admin.password
+        // Get admin's password from database
+        const admin_password = admin.password;
 
-        const password_verify = comapare_password(password, admin_password)
+        // Verify the password 
+        const password_verify = comapare_password(password, admin_password);
 
-        if (!password_verify) throw new Error("Incorrect password" ) 
+        // If password incorrect, throw error
+        if (!password_verify) throw new Error("Incorrect password");
+
+        // Generate JWT token for the admin
+        const token = generateToken(admin.id, "2d");
         
-        const token = generateToken(admin.id, "2d")
-        console.log(token)
-        
-        req.session.admin_token = token 
+        // Store token in admin's session
+        req.session.admin_token = token;
 
-        return res.status(200).json({ms: "login successfull", data: admin._id}) 
+        // Return success response with admin ID
+        return res.status(200).json({ msg: "Login successful", data: admin._id });
         
     } catch (error) {
-        return res.status(504).json({ msg: error.message }) 
+        // Handle errors
+        return res.status(504).json({ msg: error.message });
     }
-}
-
-
-
+};
