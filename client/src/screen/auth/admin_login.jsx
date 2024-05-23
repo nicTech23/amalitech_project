@@ -8,7 +8,7 @@ const AdminLogin = () => {
   
   return (
      <AuthLayout>
-          <Fields data={data} marginTop={8} header="Login as Admin" autLink="Signup as Admin" forgetPassword="" event={get_admin_login_values} handle={admin_login_button} nav={"admin-signup"} />
+          <Fields data={data} marginTop={8} header="Login as Admin" autLink="Signup as Admin" forgetPassword="" event={get_admin_login_values} handle={admin_login_button} nav={"admin-signup"} token={null} />
     </AuthLayout>
   )
 }

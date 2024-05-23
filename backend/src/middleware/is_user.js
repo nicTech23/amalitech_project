@@ -17,8 +17,9 @@ exports.is_user = async(req, res, next)=>{
         // Handle invalid token
         if (decode?.message === "invalid token") throw new Error("Unauthorized access");
         
-        //const { id } = decode;
+        const { id } = decode;
 
+        req.id = id
         
 
         next()

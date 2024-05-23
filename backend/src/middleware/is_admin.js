@@ -16,7 +16,9 @@ exports.is_admin = async(req, res, next) =>{
         
         // Handle invalid token
         if (decode_token?.message === "invalid token") throw new Error("Unauthorized access");
+        const { id } = decode_token
         
+        req.id = id
         next()
     } catch (error) {
         // Handle errors

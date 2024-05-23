@@ -17,7 +17,7 @@ user_auth_router.get("/", async(req, res)=>{
 user_auth_router.post("/register", register_validation, Register)
 user_auth_router.post("/user-login", login_validation,  User_login)
 user_auth_router.post("/forgot-password", Forgot_password)
-user_auth_router.put("/update-password", Update_password)
+user_auth_router.put("/update-password/:token", Update_password)
 user_auth_router.get("/verify-account/:token", Verify_account)
 user_auth_router.get("/logout", logout)
 

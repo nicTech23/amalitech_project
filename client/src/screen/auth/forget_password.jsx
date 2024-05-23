@@ -8,7 +8,7 @@ const ForgetPassword = () => {
   
   return (
       <AuthLayout>
-        <Fields data={data} marginTop={8} header="forgot password" autLink="login" forgetPassword={null} event={get_forgot_password_value} handle={forgot_password_button } nav={"forgot-password"}/>
+        <Fields data={data} marginTop={8} header="forgot password" autLink="login" forgetPassword={null} event={get_forgot_password_value} handle={forgot_password_button } nav={"forgot-password"} token={null}/>
       </AuthLayout>
   )
 }

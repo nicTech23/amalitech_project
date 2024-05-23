@@ -15,26 +15,12 @@ exports.download_file = async (req, res) => {
         // Extract document_id and file_name from request parameters
         const { document_id, file_name } = req.params;
 
-        // // Extract user token from the session 
-        // const user_token = req.session?.user_token;
-
-        // // If user is not logged in, throw error
-        // if (typeof user_token === "undefined") throw new Error("Login as user to download a file");
-
-        // // Decode the token to get user id
-        // const decode = decodeToken(user_token);
-        
-        // // Handle expired token
-        // if (decode?.message === "jwt expired") throw new Error("Time out");
-        
-        // // Handle invalid token
-        // if (decode?.message === "invalid token") throw new Error("Unauthorized access");
-        
-        // Sending the downloaded file to the client
         res.download(`./public/files/${file_name}`); 
         
+        const user_id = req.id
+        
         // Storing the download details to the database
-        const download = await Download.create({ document: document_id });
+        const download = await Download.create({ document: document_id, downloadedBy:user_id});
 
         // If download creation fails, throw error
         if (!download) throw new Error("Download fails");

@@ -12,7 +12,7 @@ document_route.get("/get-all-files", Get_all_files)
 
 // http://localhost:8000/api/v1/document-route/search-file?search=yaw
 document_route.get("/search-file", is_user,Search_file)
-document_route.get("/get-type-of-file/:name", Get_type_of_file)
+document_route.get("/get-type-of-file/:type", Get_type_of_file)
 
 
 

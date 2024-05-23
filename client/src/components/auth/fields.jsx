@@ -3,7 +3,7 @@ import "./fields.css"
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
-const Fields = ({data, marginTop, header, autLink, forgetPassword, event, handle, nav}) => {
+const Fields = ({data, marginTop, header, autLink, forgetPassword, event, handle, nav, token}) => {
   const navigate = useNavigate()
   
   return (
@@ -42,7 +42,7 @@ const Fields = ({data, marginTop, header, autLink, forgetPassword, event, handle
         },
         padding: "10px",
         marginTop:"10px"
-        }} onClick={()=>handle(navigate )} className='auth_btn'>{ header}</Button>
+        }} onClick={()=>handle(navigate, token )} className='auth_btn'>{ header}</Button>
     </div>
   )
 }

@@ -179,3 +179,5 @@ MONGODB_URL=<mongodb url>
 ```
 
 This README provides an overview of the file server project, instructions on setting it up, and guidance on how to use its features. For more detailed information, refer to the project's codebase.
+
+ER Diagram database link: https://drive.google.com/file/d/1Ni5CyCjPAPs156bYUsirvPSbRRIpJnJm/view?usp=sharing

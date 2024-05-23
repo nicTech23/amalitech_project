@@ -7,7 +7,7 @@ import { authContext } from '../service/auth_context/authContext';
 import { adminContext } from '../service/auth_context/admin_context';
 
 const AuthLayout = ({children}) => {
-  const { error_message } = useContext(authContext)
+  const { error_message, reset_message, verify_message } = useContext(authContext)
   const { admin_error_message } = useContext(adminContext)
   console.log("error", error_message)
   return (
@@ -15,6 +15,20 @@ const AuthLayout = ({children}) => {
       <section className='auth-header'>
         <h1>Lizzy Shop</h1>
       </section>
+
+      {reset_message && (
+         <Alert severity="info">
+          <AlertTitle>Info</AlertTitle>
+            A reset password link has sent to your email
+         </Alert>
+      )}
+     
+      {verify_message && (
+        <Alert severity="info">
+          <AlertTitle>Info</AlertTitle>
+            Verification link has sent to your email
+         </Alert>
+      )}
 
       {(error_message || admin_error_message) && (
         <Stack sx={{width:"50%", position:"absolute", right:"0", top:"12%"}}>

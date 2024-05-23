@@ -7,7 +7,7 @@ const AdminSignup = () => {
     const {get_admin_signup_values, admin_signup_button} = useContext(adminContext)
   return (
      <AuthLayout>
-        <Fields data={data} marginTop={7} header="SignUp as Admin" autLink="login as admin" forgetPassword={null} event={get_admin_signup_values} handle={admin_signup_button} nav={"admin-login"} />
+        <Fields data={data} marginTop={7} header="SignUp as Admin" autLink="login as admin" forgetPassword={null} event={get_admin_signup_values} handle={admin_signup_button} nav={"admin-login"} token={null} />
     </AuthLayout>
   )
 }

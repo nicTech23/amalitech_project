@@ -15,7 +15,11 @@ const documentShema = new mongoose.Schema({
     file: {
         type: String,
         require:true
-    }
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"admin"
+    },
 }, {
     timestamps:true
 })

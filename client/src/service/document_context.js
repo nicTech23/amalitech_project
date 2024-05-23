@@ -51,7 +51,7 @@ const DocumentProvider = ({children}) => {
                 },
                 withCredentials:true
             })
-
+            window.location.reload()
             if (response.status === 200) {
                 setModal(false)
                 setDocument({title: "",

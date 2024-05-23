@@ -11,10 +11,12 @@ const { generateToken } = require("../utils/jwt");
 //POST
 //http://localhost:8000/api/v1/admin-route/register-admin
 exports.Admin_register = async (req, res) => {
+    //Input fields error checking
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array()[0].msg });
     }
+
     try {
         // Extract data from request body
         const { name, email, password } = req.body;
@@ -41,7 +43,6 @@ exports.Admin_register = async (req, res) => {
         return res.status(500).json({ msg: error.message });
     }
 };
-
 
 
 //Endpoint to register a new admin

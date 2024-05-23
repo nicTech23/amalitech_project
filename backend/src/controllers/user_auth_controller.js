@@ -7,6 +7,8 @@ const NodeMailer = require("../utils/nodeMailer");
 
 //POST
 //Route: http://localhost:8000/api/v1/user_auth-route/register
+// Sign up as user
+//After signing up email will verification link will send to your email but yous the response token for verification
 exports.Register = async (req, res) =>{
    
     // Check for validation errors
@@ -40,7 +42,7 @@ exports.Register = async (req, res) =>{
         const verification_link = `http://localhost:3000/verify/${token}`
 
         // Send verification email
-        await NodeMailer(email, `<a href=${verification_link}>Click to verify account</a>`, "Verify account", null)
+        await NodeMailer(email, "Verify account", null, first_name, verification_link, 'account_verify')
 
         // Return success response with token
         //NB: save the token for verification testing
@@ -53,6 +55,7 @@ exports.Register = async (req, res) =>{
 
 //POST
 //Route: http://localhost:8000/api/v1/user_auth-route/user-login
+//Login as a User
 exports.User_login = async (req, res) =>{
     // Check for validation errors
     const errors = validationResult(req);
@@ -112,13 +115,18 @@ exports.Forgot_password = async (req, res) => {
         }
 
         // Generate JWT token for the user to reset password
-        const token = generateToken({ email: user.email, id: user.id }, "5m");
+        const token = generateToken(user.id, "5m");
 
         // Attach token to the user session
-        req.session.forget_token = token;
+        //req.session.forget_token = token;
+
+        const upate_link = `http://localhost:3000/update-password/${token}`
+
+         // Send verification email
+        await NodeMailer(email, "Reset password", null, user.first_name, upate_link, 'update_password', )
 
         // Return success response
-        return res.status(200).json({ msg: "You can now set your password within 5m from now" });
+        return res.status(200).json({ msg: "You can now set your password within 5m from now", token});
 
     } catch (error) {
         // Handle specific error
@@ -133,34 +141,32 @@ exports.Forgot_password = async (req, res) => {
 
 
 //PUT
-//Route: http://localhost:8000/api/v1/user_auth-route/update-password
+//Route: http://localhost:8000/api/v1/user_auth-route/update-password/:token
 exports.Update_password = async (req, res) => {
     try {
         const { password, confirm_password } = req.body;
+
+        const { token } = req.params
         
-        // Compare the two passwords to see if they match
-        if (password != confirm_password) return res.status(401).json({ msg: "Password does not match" });
-        
-        // Get the user request token 
-        const token = await req?.session?.forget_token;
-        
+
         // Decode the token for verification
         const decode = decodeToken(token);
         
         // Handle token decode errors
         if (decode?.message === "jwt expired") throw new Error("Time out");
         if (decode?.message === "invalid token") throw new Error("Unauthorized access");
+
+         // Extract user id from the decoded token
+        const {id} = decode;
         
-        // Extract user email from the decoded token
-        const { id: { email } } = decode;
-        
-        console.log(email);
+        // Compare the two passwords to see if they match
+        if (password != confirm_password) return res.status(401).json({ msg: "Password does not match" });
         
         // Hash the user password
         const password_hash = hash_password(password);
 
         // Find user and update the password
-        const user = await User.findOneAndUpdate({ email: email }, { password: password_hash });
+        const user = await User.findOneAndUpdate({ _id: id }, { password: password_hash });
         
         // If user not found, throw error
         if (!user) throw new Error("Unable to update password");

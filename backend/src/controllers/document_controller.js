@@ -7,6 +7,10 @@ const { decodeToken } = require("../utils/jwt")
 // http://localhost:8000/api/v1/document-route/create-document
 exports.Create_document = async (req, res) => {
     try {
+
+        //admin id 
+        const admin_id = req.id
+
         // Extract data from request body
         const { title, description, type } = req.body;
 
@@ -14,8 +18,10 @@ exports.Create_document = async (req, res) => {
         const file = req.file?.filename;
         
         // Create document in database
-        const create_document = await Document.create({ title, description, file, type });
+        const create_document = await Document.create({ title, description, file, type,  createdBy:admin_id});
 
+        if (!create_document) throw new Errow("Failed to insert a file")
+        
         // Return success response
         return res.status(200).json({ msg: "Document created" });
 
@@ -26,7 +32,7 @@ exports.Create_document = async (req, res) => {
 };
 
 
-// Endpoint to get all files
+// Endpoint to list all files
 //GET
 // http://localhost:8000/api/v1/document-route/get-all-files
 exports.Get_all_files = async (req, res) => {
@@ -43,18 +49,19 @@ exports.Get_all_files = async (req, res) => {
     }
 };
 
+
 // Endpoint to get files of a specific type
 //GET
-// http://localhost:8000/api/v1/document-route//get-type-of-file/name
+// http://localhost:8000/api/v1/document-route//get-type-of-file/type
 exports.Get_type_of_file = async (req, res) => {
     try {
-        const { name } = req.params;
+        const { type } = req.params;
 
         // Find files of specific type in database
-        const files = await Document.find({ type: name });
+        const files = await Document.find({ type: type });
 
         // If no files found, return error
-        if (!files) return res.status(400).json({ msg: "No file found" });
+        if (!files || files.length === 0) return res.status(400).json({ msg: "No file found" });
 
         // Return files
         return res.status.json({ msg: files });
@@ -72,26 +79,12 @@ exports.Search_file = async (req, res) => {
     try {
         const { search } = req.query;
 
-        // Extract user token from the session 
-        // const user_token = req.session?.user_token;
-
-        // // If user is not logged in, throw error
-        // if (typeof user_token == "undefined") throw new Error("Login as user to search for a file");
-
-        // // Decode the token to get user id
-        // const decode = decodeToken(user_token);
-        
-        // // Handle expired token
-        // if (decode?.message === "jwt expired") throw new Error("Time out");
-        
-        // // Handle invalid token
-        // if (decode?.message === "invalid token") throw new Error("Unauthorized access");
-
         // Search for files based on title or description
         const searchResults = await Document.find({
             $or: [
                 { description: { $regex: search, $options: "i" } }, // Case-insensitive search for description
-                { title: { $regex: search, $options: "i" } } // Case-insensitive search for title
+                { title: { $regex: search, $options: "i" } },// Case-insensitive search for title
+                { type: { $regex: search, $options: "i" } }// Case-insensitive search for type
             ]
         });
 

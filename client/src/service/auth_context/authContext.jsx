@@ -26,12 +26,14 @@ const AuthProvider = ({children}) =>{
         email:""
     })
     
-    const [ error_message, set_error_message ] = useState(null)
+    const [ error_message, set_error_message ] = useState(false)
 
     const [register, set_register] = useState("Sign up as a user")
     
     const [ verify, set_verify ] = useState("Verify")
     
+    const [reset_message, set_reset_message] = useState(false)
+    const [verify_message, set_verify_message] = useState(false)
     // get signUp values from input fields
     const get_login_values = useCallback((e)=>{
         setLogin({...login, [ e.target.name ]: e.target.value })
@@ -99,13 +101,21 @@ const AuthProvider = ({children}) =>{
         try {
             set_register("Registaring...")
             const response = await axios.post(`http://localhost:8000/api/v1/user_auth-route/register`, body)
-
+            set_verify_message(true)
             if (response.status === 200) {
                 console.log("navigate")
                 navigate("/user-login")
                 set_register("Sign up as a user")
                 setSigup({})
             }
+
+            const verify_time_interval = setInterval(()=>{
+                   set_verify_message(false)
+               }, [ 9000 ])
+                
+                setTimeout(() => {
+                    clearInterval(verify_time_interval);
+                }, 10000);
 
         } catch (error) {
             const errors = error?.response?.data.msg || error?.response?.data.errors || error.message
@@ -133,12 +143,21 @@ const AuthProvider = ({children}) =>{
 
         try {
             const response = await axios.post(`http://localhost:8000/api/v1/user_auth-route/forgot-password`, body, {withCredentials:true})
+            set_reset_message(true)
             if (response.status === 200) {
                 const data = await response.data
                 console.log(data)
-                navigate("/update-password")
                 set_forgot_password({})
             }
+            const reset_time_interval = setInterval(()=>{
+                   set_reset_message(false)
+
+               }, [ 8000 ])
+                
+                setTimeout(() => {
+                    clearInterval(reset_time_interval);
+                }, 10000);
+            
         } catch (error) {
             const errors = error?.response?.data.msg || error?.response?.data.errors || error.message
             set_error_message(errors)
@@ -157,14 +176,14 @@ const AuthProvider = ({children}) =>{
         }
     }
 
-    const update_password_button = async(navigate)=>{
+    const update_password_button = async(navigate, token)=>{
         const body = {
             password: update_password.password,
             confirm_password: update_password.confirm_password
         }
 
         try {
-            const response = await axios.put(`http://localhost:8000/api/v1/user_auth-route/update-password`, body, {withCredentials:true})
+            const response = await axios.put(`http://localhost:8000/api/v1/user_auth-route/update-password/${token}`, body, {withCredentials:true})
              if (response.status === 200) {
                 const data = await response.data
                  console.log(data)
@@ -255,7 +274,9 @@ const AuthProvider = ({children}) =>{
                 handle_verify,
                 verify,
                 register,
-                handle_logout
+            handle_logout,
+            reset_message,
+                verify_message
             }}>
         {children}
     </authContext.Provider>

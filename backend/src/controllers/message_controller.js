@@ -28,11 +28,9 @@ exports.send_message = async (req, res) => {
        
         // Extracting user token from the session 
         const user_token = req.session?.user_token;
+        res.red
 
-        // Decoding the token to get user id
-        const decode = decodeToken(user_token);
-
-        const { id } = decode;
+        const user_id = req.id
         
         // File attached to the email
         const attachments = [
@@ -43,10 +41,10 @@ exports.send_message = async (req, res) => {
         ];
         
         // Sending the email
-        const mail = await nodeMailer(recipient, `<p>${body}</p>`, subject, attachments);
+        const mail = await nodeMailer(recipient, subject, attachments, null, null, "email", body);
        
         // Saving email message, user_id, and document_id to the database
-        const message = await Message.create({ body, subject, document: document_id, messageBy: id, recipient });
+        const message = await Message.create({ body, subject, document: document_id, messageBy: user_id, recipient });
         
         // If message creation fails, return error
         if (!message) return res.status(400).json("Message fails");

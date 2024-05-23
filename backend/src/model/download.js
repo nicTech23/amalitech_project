@@ -4,7 +4,11 @@ const downloadSchema = new mongoose.Schema({
     document: {
         type: mongoose.Schema.Types.ObjectId,
         ref:"document"
-    }
+    },
+    downloadedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"user"
+    },
 },{
     timestamps:true
 })
