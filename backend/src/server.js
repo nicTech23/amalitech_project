@@ -63,9 +63,9 @@ app.use("/api/v1/document-route", document_route)
 app.use("/api/v1/download-route", download_route)
 app.use("/api/v1/message-route", message_route) 
 
-app.get("*", (_, res)=>{
-    res.send("<h1>Page not found</h1>")
-})
+// app.get("*", (_, res)=>{
+//     res.send("<h1>Page not found</h1>")
+// })
 app.get("/", (_, res)=>{
   res.send("<h1>Amalitech Training project</h1>")
 })
