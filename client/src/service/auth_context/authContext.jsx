@@ -71,7 +71,7 @@ const AuthProvider = ({children}) =>{
                 // Cookies.set('user_token', token, { expires: 7 })
                 localStorage.setItem("user", data.data)
                 setLogin({email: "", password:""})
-                //navigate("/feeds")
+                navigate("/feeds")
         } catch (error) {
             const errors = error?.response?.data.msg || error?.response?.data.errors || error.message
             set_error_message(errors)
@@ -103,7 +103,7 @@ const AuthProvider = ({children}) =>{
 
         try {
             set_register("Registaring...")
-            const response = await axios.post(`http://localhost:8000/api/v1/user_auth-route/register`, body, {withCredentials:true})
+            const response = await axios.post(`https://nss-project-backend.onrender.com/api/v1/user_auth-route/register`, body, {withCredentials:true})
             set_verify_message(true)
             if (response.status === 200) {
                 console.log("navigate")

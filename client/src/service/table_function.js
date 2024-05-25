@@ -3,12 +3,12 @@ const get_table_field = async (setError, creatData, setRows) => {
     try {
     
         const document_response = await axios.get(`https://nss-project-backend.onrender.com/document-route/get-all-files`, {withCredentials:true});
-        const document_data = document_response?.data?.msg;
+        const document_data = await document_response?.data?.msg;
 
         console.log("ddd", document_data)
         let download
         let message
-        const promises = document_data.map(async (data) => {
+        const promises = await document_data.map(async (data) => {
             const message_response = await axios.get(`https://nss-project-backend.onrender.com/message-route/messages-for-each-file/${data._id}`, {withCredentials:true});
             const message_data = await message_response.data?.msg;
             
