@@ -87,11 +87,8 @@ exports.User_login = async (req, res) =>{
         // Generate JWT token for the user
         const token = generateToken(user.id, "2d")
         
-        // Attach token to the user session
-        req.session.user_token = token
-
         // Return success response with user ID
-        return res.status(200).json({ms: "login successfull", data:user.id}) 
+        return res.status(200).json({ms: "login successfull", data:user.id, token}) 
         
     } catch (error) {
         return res.status(504).json({ msg: error.message }) 
