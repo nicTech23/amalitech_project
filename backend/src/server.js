@@ -21,16 +21,17 @@ app.use(express.json())
 
 // Initialize client with custom host and port (update these values if needed)
 let redisClient = createClient({
-  url: "rediss://red-cp8td65ds78s73c9be2g:DzvIrlgvSVgNOp0UbKgsZoOTXQtko44f@oregon-redis.render.com:6379",
-  password:"DzvIrlgvSVgNOp0UbKgsZoOTXQtko44f"
   
-  // socket: {
-  //   host: process.env.REDIS_HOST || 'oregon-redis.render.com', // Replace with your Redis server host
-  //   port: process.env.REDIS_PORT || 6379,    // Replace with your Redis server port
-  //   username:`red-cp8td65ds78s73c9be2g`,
-  //   password: `DzvIrlgvSVgNOp0UbKgsZoOTXQtko44f` 
-  // },
-  // legacyMode: true // Required for compatibility
+  
+  socket: {
+    // host: process.env.REDIS_HOST || 'oregon-redis.render.com', // Replace with your Redis server host
+    // port: process.env.REDIS_PORT || 6379,    // Replace with your Redis server port
+    // username:`red-cp8td65ds78s73c9be2g`,
+    // password: `DzvIrlgvSVgNOp0UbKgsZoOTXQtko44f` 
+    url: "rediss://red-cp8td65ds78s73c9be2g:DzvIrlgvSVgNOp0UbKgsZoOTXQtko44f@oregon-redis.render.com:6379",
+  password:"DzvIrlgvSVgNOp0UbKgsZoOTXQtko44f"
+  },
+  legacyMode: true // Required for compatibility
 });
 
 redisClient.on('error', (err) => {
