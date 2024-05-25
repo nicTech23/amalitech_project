@@ -8,7 +8,7 @@ const { decodeToken } = require("../utils/jwt")
 exports.Create_document = async (req, res) => {
     try {
 
-        //admin id 
+        //admin id from isAdmin middleware
         const admin_id = req.id
 
         // Extract data from request body

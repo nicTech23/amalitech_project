@@ -27,9 +27,9 @@ exports.send_message = async (req, res) => {
         const { document_id } = req.params;
        
         // Extracting user token from the session 
-        const user_token = req.session?.user_token;
-        res.red
-
+       // const user_token = req.cookies?.user_token
+        
+        // get the user_id from isUser middleware
         const user_id = req.id
         
         // File attached to the email

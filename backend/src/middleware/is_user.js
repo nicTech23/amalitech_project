@@ -2,8 +2,8 @@ const { decodeToken } = require("../utils/jwt");
 
 exports.is_user = async(req, res, next)=>{
     try {
-         // Extracting user token from the session 
-        const user_token = req.session?.user_token;
+         // Extracting user token from the cookie 
+        const user_token = req.cookies?.user_token;
 
         // If user is not logged in, throw error
         if (typeof user_token === "undefined") throw new Error("Login as user");

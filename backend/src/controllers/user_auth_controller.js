@@ -21,6 +21,9 @@ exports.Register = async (req, res) =>{
         // Destructure request body
         const { first_name, last_name, email, password, telephone } = await req.body
 
+        const tokenn = req.cookies
+
+        console.log(tokenn)
          // Check if user already exists
         const existing_user = await User.findOne({ email })
         
@@ -86,6 +89,12 @@ exports.User_login = async (req, res) =>{
         
         // Generate JWT token for the user
         const token = generateToken(user.id, "2d")
+
+        res.cookie('user_token', token, {
+            httpOnly: true, // Recommended for security
+            secure:process.env.NODE_ENV === 'production', // Ensure cookies are sent over HTTPS in production
+            maxAge: 7 * 24 * 60 * 60 * 1000, // Cookie expires in 7 days
+        });
         
         // Return success response with user ID
         return res.status(200).json({ms: "login successfull", data:user.id, token}) 
@@ -179,7 +188,7 @@ exports.Update_password = async (req, res) => {
 
 
 //GET
-//http://localhost:8000/api/v1/user_auth-route//verify-account/token
+//http://localhost:8000/api/v1/user_auth-route//verify-account/:token
 exports.Verify_account = async (req, res) => {
     try {
         const { token } = req.params;
@@ -207,20 +216,20 @@ exports.Verify_account = async (req, res) => {
     }
 };
 
-//GET
-//http://localhost:8000/api/v1/user_auth-route/logout
-exports.logout = async(req, res)=>{
-    try {
-        if (req.session.user_token) {
-            delete req.session.user_token
+// //GET
+// //http://localhost:8000/api/v1/user_auth-route/logout
+// exports.logout = async(req, res)=>{
+//     try {
+//         if (req.session.user_token) {
+//             delete req.session.user_token
 
-            console.log(req.session.user_token)
-            return res.status(200).json({ msg: 'Logout successful' });
-        } else {
-            throw new Error("logout failed")
-        }
+//             console.log(req.session.user_token)
+//             return res.status(200).json({ msg: 'Logout successful' });
+//         } else {
+//             throw new Error("logout failed")
+//         }
         
-    } catch (error) {
-        return res.status(500).json({ msg:error.message });
-    }
-}
+//     } catch (error) {
+//         return res.status(500).json({ msg:error.message });
+//     }
+// }

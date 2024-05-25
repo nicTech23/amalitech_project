@@ -1,5 +1,6 @@
 const express = require("express")
 const dotenv = require("dotenv")
+//const user_auth_router = require("./routes/user_auth_route")
 const user_auth_router = require("./routes/user_auth_route")
 const admin_router = require("./routes/admin_route")
 const document_route = require("./routes/document_route")
@@ -7,6 +8,7 @@ const db_connect = require("./config/db_connect")
 const session = require("express-session")
 const download_route = require("./routes/download_route")
 const message_route = require("./routes/message_route")
+const cookieParser = require("cookie-parser")
 const RedisStore = require("connect-redis").default;
 const { createClient } = require("redis");
 
@@ -18,6 +20,7 @@ const port = process.env.PORT || 8000
 
 //Middleware
 app.use(express.json())
+app.use(cookieParser());
 
 // Initialize client with custom host and port (update these values if needed)
 let redisClient = createClient({
@@ -33,29 +36,29 @@ let redisClient = createClient({
   // legacyMode: true // Required for compatibility
 });
 
-redisClient.on('error', (err) => {
-  console.error('Redis Client Error', err);
-});
+// redisClient.on('error', (err) => {
+//   console.error('Redis Client Error', err);
+// });
 
-redisClient.connect().catch(console.error);
+// redisClient.connect().catch(console.error);
 
-// Initialize store.
-let redisStore = new RedisStore({
-  client: redisClient,
-  prefix: "myapp:",
-});
+// // Initialize store.
+// let redisStore = new RedisStore({
+//   client: redisClient,
+//   prefix: "myapp:",
+// });
 
-app.use(session({
-  secret: process.env.SECRETE_KEY,
-  saveUninitialized: false, 
-   store: redisStore,
-  resave: false,
-  cookie: {
-    secure: false, // Set it to true if using HTTPS
-    httpOnly: true, // Make the cookie HttpOnly
-    maxAge: 60000 * 30
-  }
-}))
+// app.use(session({
+//   secret: process.env.SECRETE_KEY,
+//   saveUninitialized: false, 
+//    store: redisStore,
+//   resave: false,
+//   cookie: {
+//     secure: false, // Set it to true if using HTTPS
+//     httpOnly: true, // Make the cookie HttpOnly
+//     maxAge: 60000 * 30
+//   }
+// }))
 
 // app.use((_, res, next) => {
 //   res.setHeader("Access-Control-Allow-Origin", "*");

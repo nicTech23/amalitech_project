@@ -3,7 +3,7 @@ const { decodeToken } = require("../utils/jwt");
 exports.is_admin = async(req, res, next) =>{
     try {
         // Extract admin token from the session 
-        const admin_token = req.session.admin_token;
+        const admin_token = req.cookies?.admin_token;
 
         // If admin is not logged in, throw error
         if (typeof admin_token === "undefined") throw new Error("Login as admin");
@@ -16,6 +16,7 @@ exports.is_admin = async(req, res, next) =>{
         
         // Handle invalid token
         if (decode_token?.message === "invalid token") throw new Error("Unauthorized access");
+        
         const { id } = decode_token
         
         req.id = id

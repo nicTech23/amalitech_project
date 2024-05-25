@@ -1,4 +1,5 @@
-import { createContext, useCallback, useState} from "react";
+import { createContext, useCallback, useState } from "react";
+import Cookies from 'js-cookie';
 import axios from "axios"
 export const authContext = createContext(null)
 
@@ -65,10 +66,12 @@ const AuthProvider = ({children}) =>{
         try {
             const response = await axios.post(`https://nss-project-backend.onrender.com/api/v1/user_auth-route/user-login`, body, {withCredentials:true})
                 const data = await response.data
+                // console.log("my data", data)
+                // const {token} = await data
+                // Cookies.set('user_token', token, { expires: 7 })
                 localStorage.setItem("user", data.data)
                 setLogin({email: "", password:""})
-                navigate("/feeds")
-
+                //navigate("/feeds")
         } catch (error) {
             const errors = error?.response?.data.msg || error?.response?.data.errors || error.message
             set_error_message(errors)
@@ -100,7 +103,7 @@ const AuthProvider = ({children}) =>{
 
         try {
             set_register("Registaring...")
-            const response = await axios.post(`https://nss-project-backend.onrender.com/api/v1/user_auth-route/register`, body)
+            const response = await axios.post(`http://localhost:8000/api/v1/user_auth-route/register`, body, {withCredentials:true})
             set_verify_message(true)
             if (response.status === 200) {
                 console.log("navigate")
