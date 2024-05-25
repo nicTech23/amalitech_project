@@ -42,7 +42,7 @@ redisClient.connect().catch(console.error);
 // Initialize store.
 let redisStore = new RedisStore({
   client: redisClient,
-  prefix: "myapp:",
+  prefix: "amalitech_project:",
 });
 
 app.use(session({
