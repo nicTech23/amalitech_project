@@ -16,8 +16,8 @@ const port = process.env.PORT || 8000
 
 //Middleware
 app.use(express.json())
- 
-app.use(session({ 
+
+app.use(session({
   secret: process.env.SECRETE_KEY,
   saveUninitialized: false, 
   resave: false,
@@ -40,7 +40,7 @@ app.use(session({
 
 
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Origin', ["http://localhost:3000"||'*']);
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -61,14 +61,17 @@ app.use("/api/v1/user_auth-route", user_auth_router)
 app.use("/api/v1/admin-route", admin_router)
 app.use("/api/v1/document-route", document_route)
 app.use("/api/v1/download-route", download_route)
-app.use("/api/v1/message-route", message_route) 
+app.use("/api/v1/message-route", message_route)
 
-// app.get("*", (_, res)=>{
-//     res.send("<h1>Page not found</h1>")
-// })
 app.get("/", (_, res)=>{
-  res.send("<h1>Amalitech Training project</h1>")
+    res.send("<h1>Amalitech Project</h1>")
 })
+
+app.get("*", (_, res)=>{
+    res.send("<h1>Page not found</h1>")
+})
+
+
 
 
 app.listen(port, ()=>{
