@@ -21,17 +21,16 @@ app.use(express.json())
 
 // Initialize client with custom host and port (update these values if needed)
 let redisClient = createClient({
-  
-  
-  socket: {
-    // host: process.env.REDIS_HOST || 'oregon-redis.render.com', // Replace with your Redis server host
-    // port: process.env.REDIS_PORT || 6379,    // Replace with your Redis server port
-    // username:`red-cp8td65ds78s73c9be2g`,
-    // password: `DzvIrlgvSVgNOp0UbKgsZoOTXQtko44f` 
-    url: "rediss://red-cp8td65ds78s73c9be2g:DzvIrlgvSVgNOp0UbKgsZoOTXQtko44f@oregon-redis.render.com:6379",
+  url: "rediss://red-cp8td65ds78s73c9be2g:DzvIrlgvSVgNOp0UbKgsZoOTXQtko44f@oregon-redis.render.com:6379",
   password:"DzvIrlgvSVgNOp0UbKgsZoOTXQtko44f"
-  },
-  legacyMode: true // Required for compatibility
+  
+  // socket: {
+  //   host: process.env.REDIS_HOST || 'oregon-redis.render.com', // Replace with your Redis server host
+  //   port: process.env.REDIS_PORT || 6379,    // Replace with your Redis server port
+  //   username:`red-cp8td65ds78s73c9be2g`,
+  //   password: `DzvIrlgvSVgNOp0UbKgsZoOTXQtko44f` 
+  // },
+  // legacyMode: true // Required for compatibility
 });
 
 redisClient.on('error', (err) => {
@@ -43,7 +42,7 @@ redisClient.connect().catch(console.error);
 // Initialize store.
 let redisStore = new RedisStore({
   client: redisClient,
-  prefix: "amalitech_project:",
+  prefix: "myapp:",
 });
 
 app.use(session({
