@@ -35,7 +35,7 @@ const AdminProvider = ({children}) => {
         }
 
         try {
-            const response = await axios.post(`http://localhost:8000/api/v1/admin-route/admin-login`, body, {withCredentials:true})
+            const response = await axios.post(`https://nss-project-backend.onrender.com/api/v1/admin-route/admin-login`, body, {withCredentials:true})
 
             if (response.status === 200) {
                 const data = await response.data
@@ -75,12 +75,12 @@ const admin_signup_button = async(navigate)=>{
         }
 
         try {
-            const response = await axios.post(`http://localhost:8000/api/v1/admin-route/register-admin`, body)
+            const response = await axios.post(`https://nss-project-backend.onrender.com/api/v1/admin-route/register-admin`, body)
 
             if (response.status === 200) {
                  console.log("navigate")
                 navigate("/admin-login")
-                set_admin_sigup({})
+                set_admin_sigup({}) 
             }
 
         } catch (error) {
