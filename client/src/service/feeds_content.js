@@ -31,7 +31,7 @@ const FeedProvider = ({children}) => {
   
     const get_all_feeds = async()=>{
        try {
-         const response = await axios.get("http://localhost:8000/api/v1/document-route/get-all-files")
+         const response = await axios.get("https://nss-project-backend.onrender.com/api/v1/document-route/get-all-files")
         const data = response.data.msg?.reverse()
         console.log(data)
         set_feed(data)
@@ -64,7 +64,7 @@ const FeedProvider = ({children}) => {
       set_send("sending...")
       const user_token = Cookies.get("user_token")
                                         
-      const response = await axios.post(`http://localhost:8000/api/v1/message-route/send-message/${feed_id}/`, body, {
+      const response = await axios.post(`https://nss-project-backend.onrender.com/api/v1/message-route/send-message/${feed_id}/`, body, {
         withCredentials: true,
         headers: {
           'Authorization': `Bearer ${user_token}`,
@@ -92,7 +92,7 @@ const FeedProvider = ({children}) => {
   const post_download = async(feed_id, file)=>{
     try {
        const user_token = Cookies.get("user_token")
-      const response = await axios.get(`http://localhost:8000/api/v1/download-route/download-file/${feed_id}/${file}/`,  {
+      const response = await axios.get(`https://nss-project-backend.onrender.com/api/v1/download-route/download-file/${feed_id}/${file}/`,  {
                 responseType: 'blob', // Important for handling file downloads
         withCredentials: true,
         headers: {
@@ -141,7 +141,7 @@ const FeedProvider = ({children}) => {
     try {
       if (search !== "") {
         const user_token = Cookies.get("user_token")
-        const response = await axios.get(`http://localhost:8000/api/v1/document-route/search-file?search=${search}`, {
+        const response = await axios.get(`https://nss-project-backend.onrender.com/api/v1/document-route/search-file?search=${search}`, {
           withCredentials: true,
           headers: {
             'Authorization': `Bearer ${user_token}`,
