@@ -76,6 +76,7 @@ exports.Admin_login = async (req, res) => {
             httpOnly: true, // Recommended for security
             secure:process.env.NODE_ENV === 'production', // Ensure cookies are sent over HTTPS in production
             maxAge: 7 * 24 * 60 * 60 * 1000, // Cookie expires in 7 days
+            path: '/',
         });
 
         // Return success response with admin ID
