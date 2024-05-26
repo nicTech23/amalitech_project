@@ -5,8 +5,6 @@ const fs = require("fs");
 const { decodeToken } = require("../utils/jwt");
 const { error } = require("console");
 
-
-
 // GET
 // ROUTE: http://localhost:8000/api/v1/download-route/download-file/document_id/file_name/
 // This route allows the user to download a file
@@ -33,8 +31,6 @@ exports.download_file = async (req, res) => {
         return res.status(500).json({ msg: error.message });
     }
 };
-
-
 
 // GET
 // ROUTE: http://localhost:8000/api/v1/download-route/downloads-for-each-file/document_id

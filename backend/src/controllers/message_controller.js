@@ -26,8 +26,6 @@ exports.send_message = async (req, res) => {
         // Extracting document_id from request parameters
         const { document_id } = req.params;
        
-        // Extracting user token from the session 
-       // const user_token = req.cookies?.user_token
         
         // get the user_id from isUser middleware
         const user_id = req.id
@@ -36,7 +34,7 @@ exports.send_message = async (req, res) => {
         const attachments = [
             {
                 filename: file_name,
-                path:`./public/files/${file_name}` //`/public/files${file_name}`
+                path:`./public/files/${file_name}` 
             }
         ];
         

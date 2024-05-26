@@ -1,16 +1,12 @@
 const express = require("express")
 const dotenv = require("dotenv")
-//const user_auth_router = require("./routes/user_auth_route")
 const user_auth_router = require("./routes/user_auth_route")
 const admin_router = require("./routes/admin_route")
 const document_route = require("./routes/document_route")
 const db_connect = require("./config/db_connect")
-const session = require("express-session")
 const download_route = require("./routes/download_route")
 const message_route = require("./routes/message_route")
 const cookieParser = require("cookie-parser")
-const RedisStore = require("connect-redis").default;
-const { createClient } = require("redis");
 
 const app = express()
 
@@ -22,53 +18,6 @@ const port = process.env.PORT || 8000
 app.use(express.json())
 app.use(cookieParser());
 
-// Initialize client with custom host and port (update these values if needed)
-let redisClient = createClient({
-  url: "rediss://red-cp8td65ds78s73c9be2g:DzvIrlgvSVgNOp0UbKgsZoOTXQtko44f@oregon-redis.render.com:6379",
-  password:"DzvIrlgvSVgNOp0UbKgsZoOTXQtko44f"
-  
-  // socket: {
-  //   host: process.env.REDIS_HOST || 'oregon-redis.render.com', // Replace with your Redis server host
-  //   port: process.env.REDIS_PORT || 6379,    // Replace with your Redis server port
-  //   username:`red-cp8td65ds78s73c9be2g`,
-  //   password: `DzvIrlgvSVgNOp0UbKgsZoOTXQtko44f` 
-  // },
-  // legacyMode: true // Required for compatibility
-});
-
-// redisClient.on('error', (err) => {
-//   console.error('Redis Client Error', err);
-// });
-
-// redisClient.connect().catch(console.error);
-
-// // Initialize store.
-// let redisStore = new RedisStore({
-//   client: redisClient,
-//   prefix: "myapp:",
-// });
-
-// app.use(session({
-//   secret: process.env.SECRETE_KEY,
-//   saveUninitialized: false, 
-//    store: redisStore,
-//   resave: false,
-//   cookie: {
-//     secure: false, // Set it to true if using HTTPS
-//     httpOnly: true, // Make the cookie HttpOnly
-//     maxAge: 60000 * 30
-//   }
-// }))
-
-// app.use((_, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "OPTIONS, GET, POST, PUT, PATCH, DELETE"
-//   );
-//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-//   next();
-// });
 
 
 app.use((req, res, next) => {
@@ -104,9 +53,7 @@ app.get("*", (_, res)=>{
 })
 
 
-
-
 app.listen(port, ()=>{
     console.log(`port is running on ${port}`)
-    db_connect()
+    db_connect()   
 })

@@ -1,7 +1,5 @@
 import React, { useContext } from 'react'
 import "./feed_card.css"
-import IMG from "../../assets/card.avif"
-import PDF from "../../assets/Nicholas_CV.pdf"
 import { Button, IconButton, Tooltip } from '@mui/material'
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import { feeds_context } from '../../service/feeds_content'
@@ -25,7 +23,7 @@ const FeedCard = ({title, description, file, id}) => {
   };
   let image_url = `http://localhost:8000/files/${file}`
 
-  console.log(image_url)
+ 
   return (
     <div className='card'>
       <div className='image'>
@@ -35,7 +33,6 @@ const FeedCard = ({title, description, file, id}) => {
             <img src={image_url} alt='img'/>
         )}
        
-        
       </div>
       <div className='title'>{title }</div>
       <div className='description'>

@@ -13,7 +13,7 @@ const AuthLayout = ({children}) => {
   return (
     <section className='auth-layout'>
       <section className='auth-header'>
-        <h1>Lizzy Shop</h1>
+        <a href='/'>Lizzy Shop</a>
       </section>
 
       {reset_message && (

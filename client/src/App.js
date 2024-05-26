@@ -16,6 +16,7 @@ import FeedProvider from "./service/feeds_content";
 import AdminLogin from "./screen/auth/admin_login";
 import AdminSignup from "./screen/auth/admin_signup";
 import Verify from "./screen/verify";
+import Homepage from "./screen/homepage";
 
 
 const router = createBrowserRouter([
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/user-login",
     element: <Login/>
+  },
+  {
+    path: "/",
+    element: <Homepage/>
   },
   {
     path: "/user-signup",

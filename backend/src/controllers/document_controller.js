@@ -2,7 +2,7 @@ const Document = require("../model/document")
 const { decodeToken } = require("../utils/jwt")
 
 
-// Endpoint to create a new document
+// Endpoint to create a new document in the database
 //POST
 // http://localhost:8000/api/v1/document-route/create-document
 exports.Create_document = async (req, res) => {
@@ -32,6 +32,38 @@ exports.Create_document = async (req, res) => {
 };
 
 
+// Endpoint to search for files
+//GET
+// http://localhost:8000/api/v1/document-route/search-file?search=yaw
+exports.Search_file = async (req, res) => {
+    try {
+        const { search } = req.query;
+
+        // Search for files based on title,  description or type
+        const searchResults = await Document.find({
+            $or: [
+                { description: { $regex: search, $options: "i" } }, // Case-insensitive search for description
+                { title: { $regex: search, $options: "i" } },// Case-insensitive search for title
+                { type: { $regex: search, $options: "i" } }// Case-insensitive search for type
+            ]
+        });
+
+        // If no search results found, return error
+        if (!searchResults || searchResults.length === 0) {
+            return res.json({ msg: "No files found" });
+        }
+        
+        // Return search results
+        return res.json({ msg: searchResults });
+        
+    } catch (error) {
+        // Handle errors
+        return res.status(500).json({ msg: error.message });
+    }
+};
+
+
+
 // Endpoint to list all files
 //GET
 // http://localhost:8000/api/v1/document-route/get-all-files
@@ -52,7 +84,7 @@ exports.Get_all_files = async (req, res) => {
 
 // Endpoint to get files of a specific type
 //GET
-// http://localhost:8000/api/v1/document-route//get-type-of-file/type
+// http://localhost:8000/api/v1/document-route/get-type-of-file/type
 exports.Get_type_of_file = async (req, res) => {
     try {
         const { type } = req.params;
@@ -66,36 +98,6 @@ exports.Get_type_of_file = async (req, res) => {
         // Return files
         return res.status.json({ msg: files });
 
-    } catch (error) {
-        // Handle errors
-        return res.status(500).json({ msg: error.message });
-    }
-};
-
-// Endpoint to search for files
-//GET
-// http://localhost:8000/api/v1/document-route/search-file?search=yaw
-exports.Search_file = async (req, res) => {
-    try {
-        const { search } = req.query;
-
-        // Search for files based on title or description
-        const searchResults = await Document.find({
-            $or: [
-                { description: { $regex: search, $options: "i" } }, // Case-insensitive search for description
-                { title: { $regex: search, $options: "i" } },// Case-insensitive search for title
-                { type: { $regex: search, $options: "i" } }// Case-insensitive search for type
-            ]
-        });
-
-        // If no search results found, return error
-        if (!searchResults || searchResults.length === 0) {
-            return res.json({ msg: "No files found" });
-        }
-        
-        // Return search results
-        return res.json({ msg: searchResults });
-        
     } catch (error) {
         // Handle errors
         return res.status(500).json({ msg: error.message });

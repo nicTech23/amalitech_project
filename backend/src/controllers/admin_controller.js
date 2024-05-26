@@ -4,9 +4,6 @@ const { hash_password, comapare_password } = require("../utils/bcrypt");
 const { generateToken } = require("../utils/jwt");
 
 
-
-
-
 // Endpoint for admin login
 //POST
 //http://localhost:8000/api/v1/admin-route/register-admin
@@ -30,10 +27,10 @@ exports.Admin_register = async (req, res) => {
         // Hash the password
         const password_hash = hash_password(password);
         
-        // Create new admin
+        // Register new admin
         const admin = Admin.create({ name, email, password: password_hash });
         
-        // If admin creation fails, throw error
+        // If admin registeration fails, throw error
         if (!admin) throw new Error("Registration fails");
         
         // Return success response
@@ -43,7 +40,6 @@ exports.Admin_register = async (req, res) => {
         return res.status(500).json({ msg: error.message });
     }
 };
-
 
 //Endpoint to register a new admin
 //POST
@@ -70,6 +66,14 @@ exports.Admin_login = async (req, res) => {
 
         // Generate JWT token for the admin
         const token = generateToken(admin.id, "2d");
+
+        //cookies set for admin
+        res.cookie('admin_token1', token, {
+            httpOnly: true, // Helps prevent cross-site scripting (XSS) attacks
+            secure: process.env.NODE_ENV === 'production'  ? true : false, // Use secure cookies in production
+            maxAge: 7 * 24 * 60 * 60 * 1000, // Cookie expires in 7 days
+            path: '/', // Cookie is accessible on all paths
+        });
 
         // Return success response with admin ID
         return res.status(200).json({ msg: "Login successful", data: admin._id, token });

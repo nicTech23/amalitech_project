@@ -21,9 +21,6 @@ exports.Register = async (req, res) =>{
         // Destructure request body
         const { first_name, last_name, email, password, telephone } = await req.body
 
-        const tokenn = req.cookies
-
-        console.log(tokenn)
          // Check if user already exists
         const existing_user = await User.findOne({ email })
         
@@ -54,6 +51,35 @@ exports.Register = async (req, res) =>{
         return res.status(504).json({msg: error.message})
     }
 }
+
+//GET
+//http://localhost:8000/api/v1/user_auth-route//verify-account/:token
+exports.Verify_account = async (req, res) => {
+    try {
+        const { token } = req.params;
+        const decode_token = decodeToken(token);
+
+        // Handle expired token
+        if (decode_token?.message === "jwt expired") throw new Error("Time out");
+
+        // Handle invalid token
+        if (decode_token?.message === "invalid token") throw new Error("Unauthorized access");
+
+        const { id } = decode_token;
+
+        // Update verification status for the user
+        const update_verify = await User.findByIdAndUpdate({ _id: id }, { verify: true });
+
+        // If verification update fails, throw error
+        if (!update_verify) throw new Error("Verification failed");
+        
+        // Return success response
+        return res.status(200).json({ msg: "Verified" });
+    } catch (error) {
+        // Handle errors
+        return res.status(500).json({ msg: error.message });
+    }
+};
 
 
 //POST
@@ -90,6 +116,13 @@ exports.User_login = async (req, res) =>{
         // Generate JWT token for the user
         const token = generateToken(user.id, "2d")
 
+        res.cookie('user_token1', token, {
+            httpOnly: true, // Helps prevent cross-site scripting (XSS) attacks
+            secure: process.env.NODE_ENV === 'production'  ? true : false, // Use secure cookies in production
+            maxAge: 7 * 24 * 60 * 60 * 1000, // Cookie expires in 7 days
+            path: '/', // Cookie is accessible on all paths
+        });
+
         // Return success response with user ID
         return res.status(200).json({ms: "login successfull", data:user.id, token}) 
         
@@ -97,7 +130,6 @@ exports.User_login = async (req, res) =>{
         return res.status(504).json({ msg: error.message }) 
     }
 }
-
 
 
 //POST
@@ -139,7 +171,6 @@ exports.Forgot_password = async (req, res) => {
 };
 
 
-
 //PUT
 //Route: http://localhost:8000/api/v1/user_auth-route/update-password/:token
 exports.Update_password = async (req, res) => {
@@ -148,7 +179,6 @@ exports.Update_password = async (req, res) => {
 
         const { token } = req.params
         
-
         // Decode the token for verification
         const decode = decodeToken(token);
         
@@ -181,34 +211,6 @@ exports.Update_password = async (req, res) => {
 };
 
 
-//GET
-//http://localhost:8000/api/v1/user_auth-route//verify-account/:token
-exports.Verify_account = async (req, res) => {
-    try {
-        const { token } = req.params;
-        const decode_token = decodeToken(token);
-
-        // Handle expired token
-        if (decode_token?.message === "jwt expired") throw new Error("Time out");
-
-        // Handle invalid token
-        if (decode_token?.message === "invalid token") throw new Error("Unauthorized access");
-
-        const { id } = decode_token;
-
-        // Update verification status for the user
-        const update_verify = await User.findByIdAndUpdate({ _id: id }, { verify: true });
-
-        // If verification update fails, throw error
-        if (!update_verify) throw new Error("Verification failed");
-        
-        // Return success response
-        return res.status(200).json({ msg: "Verified" });
-    } catch (error) {
-        // Handle errors
-        return res.status(500).json({ msg: error.message });
-    }
-};
 
 // //GET
 // //http://localhost:8000/api/v1/user_auth-route/logout
