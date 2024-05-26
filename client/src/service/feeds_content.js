@@ -1,5 +1,7 @@
 import { createContext, useState } from "react";
 import axios from "axios"
+import Cookies from 'js-cookie';
+
 
 
 export const feeds_context = createContext(null)
@@ -29,7 +31,7 @@ const FeedProvider = ({children}) => {
   
     const get_all_feeds = async()=>{
        try {
-         const response = await axios.get("https://nss-project-backend.onrender.com/document-route/get-all-files")
+         const response = await axios.get("http://localhost:8000/api/v1/document-route/get-all-files")
         const data = response.data.msg?.reverse()
         console.log(data)
         set_feed(data)
@@ -60,7 +62,14 @@ const FeedProvider = ({children}) => {
     }
     try {
       set_send("sending...")
-      const response = await axios.post(`https://nss-project-backend.onrender.com/message-route/send-message/${feed_id}/`, body, {withCredentials:true})
+      const user_token = Cookies.get("user_token")
+                                        
+      const response = await axios.post(`http://localhost:8000/api/v1/message-route/send-message/${feed_id}/`, body, {
+        withCredentials: true,
+        headers: {
+          'Authorization': `Bearer ${user_token}`,
+        }
+      })
       set_send("send")
 
       if (response.status === 200) {
@@ -82,9 +91,14 @@ const FeedProvider = ({children}) => {
 
   const post_download = async(feed_id, file)=>{
     try {
-      const response = await axios.get(`https://nss-project-backend.onrender.com/download-route/download-file/${feed_id}/${file}/`,  {
+       const user_token = Cookies.get("user_token")
+      const response = await axios.get(`http://localhost:8000/api/v1/download-route/download-file/${feed_id}/${file}/`,  {
                 responseType: 'blob', // Important for handling file downloads
-                withCredentials:true
+        withCredentials: true,
+        headers: {
+          'Authorization': `Bearer ${user_token}`,
+        }
+              
             })
     
       // Create a URL for the file blob
@@ -125,8 +139,14 @@ const FeedProvider = ({children}) => {
   }
   const search_feed = async ()=>{
     try {
-      if (search !=="") {
-        const response = await axios.get(`https://nss-project-backend.onrender.com/document-route/search-file?search=${search}`, {withCredentials:true})
+      if (search !== "") {
+        const user_token = Cookies.get("user_token")
+        const response = await axios.get(`http://localhost:8000/api/v1/document-route/search-file?search=${search}`, {
+          withCredentials: true,
+          headers: {
+            'Authorization': `Bearer ${user_token}`,
+          }
+        })
       const data = await response.data
         if (data?.msg !== "No files found") {
           set_feed(data?.msg)

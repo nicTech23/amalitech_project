@@ -70,18 +70,9 @@ exports.Admin_login = async (req, res) => {
 
         // Generate JWT token for the admin
         const token = generateToken(admin.id, "2d");
-        
-        // Store token in admin's cookie
-         res.cookie('admin_token', token, {
-            httpOnly: true, // Recommended for security
-            secure: process.env.NODE_ENV === 'production' ? true : false, // Ensure cookies are sent over HTTPS in production
-            maxAge: 7 * 24 * 60 * 60 * 1000, // Cookie expires in 7 days
-            path: '/',
-            sameSite: 'Lax',
-        });
 
         // Return success response with admin ID
-        return res.status(200).json({ msg: "Login successful", data: admin._id });
+        return res.status(200).json({ msg: "Login successful", data: admin._id, token });
         
     } catch (error) {
         // Handle errors

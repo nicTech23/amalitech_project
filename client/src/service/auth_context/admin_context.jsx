@@ -1,5 +1,6 @@
 import { createContext, useCallback, useState} from "react";
 import axios from "axios"
+import Cookies from 'js-cookie';
 
 export const adminContext = createContext(null)
 
@@ -35,8 +36,11 @@ const AdminProvider = ({children}) => {
         }
 
         try {
-            const response = await axios.post(`https://nss-project-backend.onrender.com/api/v1/admin-route/admin-login`, body, {withCredentials:true})
-
+            const response = await axios.post(`http://localhost:8000/api/v1/admin-route/admin-login`, body, {withCredentials:true})
+            const data = await response.data
+            console.log("my data", data)
+            const {token} = await data
+            Cookies.set('admin_token', token, { expires: 7 })
             if (response.status === 200) {
                 const data = await response.data
                 const id = await response.data.data
@@ -75,7 +79,7 @@ const admin_signup_button = async(navigate)=>{
         }
 
         try {
-            const response = await axios.post(`https://nss-project-backend.onrender.com/api/v1/admin-route/register-admin`, body)
+            const response = await axios.post(`http://localhost:8000/api/v1/admin-route/register-admin`, body)
 
             if (response.status === 200) {
                  console.log("navigate")

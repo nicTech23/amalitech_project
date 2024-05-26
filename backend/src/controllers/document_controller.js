@@ -39,7 +39,7 @@ exports.Get_all_files = async (req, res) => {
     try {
         // Find all files in database
         const files = await Document.find();
-
+        console.log(files)
         // Return files
         return res.status(200).json({ msg: files });
 

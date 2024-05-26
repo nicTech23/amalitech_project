@@ -30,7 +30,7 @@ exports.Register = async (req, res) =>{
         if (existing_user) throw new Error("User already exists")
 
        //hashing user password
-        const hashed_password = hash_password(password)
+        const hashed_password = hash_password(password) 
 
         //inserting user data into the database
         const user = await User.create({ first_name, last_name, email, password:hashed_password, telephone})
@@ -90,12 +90,6 @@ exports.User_login = async (req, res) =>{
         // Generate JWT token for the user
         const token = generateToken(user.id, "2d")
 
-        res.cookie('user_token', token, {
-            httpOnly: true, // Recommended for security
-            secure:process.env.NODE_ENV === 'production', // Ensure cookies are sent over HTTPS in production
-            maxAge: 7 * 24 * 60 * 60 * 1000, // Cookie expires in 7 days
-        });
-        
         // Return success response with user ID
         return res.status(200).json({ms: "login successfull", data:user.id, token}) 
         

@@ -64,7 +64,7 @@ const AuthProvider = ({children}) =>{
         }
 
         try {
-            const response = await axios.post(`https://nss-project-backend.onrender.com/api/v1/user_auth-route/user-login`, body, {withCredentials:true})
+            const response = await axios.post(`http://localhost:8000/api/v1/user_auth-route/user-login`, body, {withCredentials:true})
                 const data = await response.data
                 // console.log("my data", data)
                 // const {token} = await data
@@ -103,7 +103,7 @@ const AuthProvider = ({children}) =>{
 
         try {
             set_register("Registaring...")
-            const response = await axios.post(`https://nss-project-backend.onrender.com/api/v1/user_auth-route/register`, body, {withCredentials:true})
+            const response = await axios.post(`http://localhost:8000/api/v1/user_auth-route/register`, body, {withCredentials:true})
             set_verify_message(true)
             if (response.status === 200) {
                 console.log("navigate")
@@ -145,7 +145,7 @@ const AuthProvider = ({children}) =>{
         }
 
         try {
-            const response = await axios.post(`https://nss-project-backend.onrender.com/api/v1/user_auth-route/forgot-password`, body, {withCredentials:true})
+            const response = await axios.post(`http://localhost:8000/api/v1/user_auth-route/forgot-password`, body, {withCredentials:true})
             set_reset_message(true)
             if (response.status === 200) {
                 const data = await response.data
@@ -186,7 +186,7 @@ const AuthProvider = ({children}) =>{
         }
 
         try {
-            const response = await axios.put(`https://nss-project-backend.onrender.com/api/v1/user_auth-route/update-password/${token}`, body, {withCredentials:true})
+            const response = await axios.put(`http://localhost:8000/api/v1/user_auth-route/update-password/${token}`, body, {withCredentials:true})
              if (response.status === 200) {
                 const data = await response.data
                  console.log(data)
@@ -210,11 +210,10 @@ const AuthProvider = ({children}) =>{
             }  
         }
     }
-
     const handle_verify = async (navigate, token)=>{
         try {
              set_verify("Verifying...")
-            const response = await axios.get(`https://nss-project-backend.onrender.com/api/v1/user_auth-route//verify-account/${token}`)
+            const response = await axios.get(`http://localhost:8000/api/v1/user_auth-route//verify-account/${token}`)
             const data = await response.data
             if (data) {
                 navigate("/user-login")
@@ -241,7 +240,7 @@ const AuthProvider = ({children}) =>{
 
     const handle_logout = async (navigate)=>{
         try {
-            const response = await axios.get(`https://nss-project-backend.onrender.com/api/v1/user_auth-route/logout/`, { withCredentials: true })
+            const response = await axios.get(`http://localhost:8000/api/v1/user_auth-route/logout/`, { withCredentials: true })
             localStorage.removeItem("user")
             navigate("/user-login")
         } catch (error) {

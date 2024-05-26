@@ -1,5 +1,6 @@
 import React, { createContext, useState } from 'react'
 import axios from "axios"
+import Cookies from 'js-cookie';
 
 export const documentContext = createContext(null)
 const DocumentProvider = ({children}) => {
@@ -45,9 +46,11 @@ const DocumentProvider = ({children}) => {
             formData.append('description', document.description);
             formData.append('type', document.type);
 
-            const response = await axios.post(`https://nss-project-backend.onrender.com/api/v1/document-route/create-document`, formData, {
+            const admin_token = Cookies.get("admin_token")
+            const response = await axios.post(`http://localhost:8000/api/v1/document-route/create-document`, formData, {
                 headers: {
                 'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${admin_token}`,
                 },
                 withCredentials:true
             })
