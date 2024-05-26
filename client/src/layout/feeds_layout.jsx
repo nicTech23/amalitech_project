@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import FeedsHeader from '../components/feeds/feeds_header'
-import FeedsSearch from '../components/feeds/feeds_search'
 import "./feeds_layout.css"
 import { Alert, AlertTitle, Stack } from '@mui/material'
 import { feeds_context } from '../service/feeds_content'

@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import "./feed_card.css"
-import { Button, IconButton, Tooltip } from '@mui/material'
-import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
+import { Button} from '@mui/material'
 import { feeds_context } from '../../service/feeds_content'
 
 
@@ -9,21 +8,8 @@ import { feeds_context } from '../../service/feeds_content'
 const FeedCard = ({title, description, file, id}) => {
   const {modal_control, post_download} = useContext(feeds_context)
   
-  const handleDownloadClick = () => {
-    // Replace 'example.pdf' with the URL or path to your CV file
-    const cvUrl = `http://localhost:8000/files/${file}`; //url of image
-    
-    // Create a temporary link and trigger download
-    const link = document.createElement('a');
-    link.href = cvUrl;
-    link.setAttribute('download', file); // Specify the filename for the downloaded file
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-  let image_url = `http://localhost:8000/files/${file}`
+  let image_url = `https://nss-project-backend.onrender.com/files/${file}`
 
- 
   return (
     <div className='card'>
       <div className='image'>

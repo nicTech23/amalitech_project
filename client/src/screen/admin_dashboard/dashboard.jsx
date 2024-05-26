@@ -3,7 +3,7 @@ import "./dashboard.css"
 import Button from '@mui/material/Button';
 import Table from "../../components/dashboard/table"
 import Modal from '../../components/dashboard/modal';
-import DocumentProvider, { documentContext } from '../../service/document_context';
+import { documentContext } from '../../service/document_context';
 import { Alert, AlertTitle } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 

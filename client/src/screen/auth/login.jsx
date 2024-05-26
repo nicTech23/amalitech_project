@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import AuthLayout from '../../layout/authLayout'
 import Fields from '../../components/auth/fields'
 import { authContext } from '../../service/auth_context/authContext'
-import AuthProvider from '../../service/auth_context/authContext'
 import "./auth.css"
 const Login = () => {      
   const { get_login_values, login_button } = useContext(authContext)

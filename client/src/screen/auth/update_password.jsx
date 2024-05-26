@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import AuthProvider, { authContext } from '../../service/auth_context/authContext'
+import { authContext } from '../../service/auth_context/authContext'
 import AuthLayout from '../../layout/authLayout'
 import Fields from '../../components/auth/fields'
 import { useParams } from 'react-router-dom'
