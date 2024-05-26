@@ -29,7 +29,6 @@ The root directory contains two folders: `backend` and `client`.
 2. Create a `.env` file at the root of the backend folder and add the following environment variables:
    PORT=<port number>
    SECRET_KEY=<secret key>
-   EMAIL=<email>
    MONGODB_URL=<mongodb url>
    
 3. Install the necessary packages:
@@ -80,12 +79,10 @@ The root directory contains two folders: `backend` and `client`.
   Required field: `email`.
 
 - **Update Password:**
-  PUT /api/v1/user_auth-route/update-password
+  PUT /api/v1/user_auth-route/update-password/:token
   Required fields: `password`, `confirm_password`.
+  params: `token` from forgot password
 
-- **Logout:**
-  GET /api/v1/user_auth-route/logout
-  
 
 - **List of Files:**
   GET /api/v1/document-route/get-all-files
