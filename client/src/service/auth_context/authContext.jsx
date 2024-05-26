@@ -1,5 +1,4 @@
 import { createContext, useCallback, useState } from "react";
-import Cookies from 'js-cookie';
 import axios from "axios"
 export const authContext = createContext(null)
 
