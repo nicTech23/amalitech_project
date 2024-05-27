@@ -5,7 +5,6 @@ exports.is_user = async(req, res, next)=>{
          // Extracting user token from the cookie 
         const user_token = req.headers?.authorization?.split(" ")[1] || req.cookies?.user_token1
        
-        console.log(req.cookies)
         // If user is not logged in, throw error
         if (typeof user_token === "undefined") throw new Error("Login as user");
 
