@@ -22,20 +22,20 @@ app.use(cors())
 
 
 
-// app.use((req, res, next) => {
-//   //res.setHeader('Access-Control-Allow-Origin', [ "http://localhost:3000" || '*' ]);
-//   res.setHeader('Access-Control-Allow-Origin', ["https://amalitech-project-client.vercel.app" || "http://localhost:3000"]);
-//   res.setHeader('Access-Control-Allow-Credentials', 'true');
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+app.use((req, res, next) => {
+  //res.setHeader('Access-Control-Allow-Origin', [ "http://localhost:3000" || '*' ]);
+  res.setHeader('Access-Control-Allow-Origin', "https://amalitech-project-client.vercel.app");
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   
-//   if (req.method === 'OPTIONS') {
-//     // Handle preflight requests
-//     res.sendStatus(200);
-//   } else {
-//     next();
-//   }
-// });
+  if (req.method === 'OPTIONS') {
+    // Handle preflight requests
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
 
 // Serve static files from the 'public' directory
 app.use(express.static('public'));
