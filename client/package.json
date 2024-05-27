@@ -28,9 +28,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
+     "prebuild": "npm install",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+     "postinstall": "npm install schema-utils"
   },
   "eslintConfig": {
     "extends": [
@@ -38,6 +40,9 @@
       "react-app/jest"
     ]
   },
+  "engines": {
+  "node": ">=18.0.0"
+},
   "browserslist": {
     "production": [
       ">0.2%",
