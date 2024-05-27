@@ -3,14 +3,14 @@ import Cookies from 'js-cookie';
 const get_table_field = async (setError, creatData, setRows) => {
     try {
         const admin_token = Cookies.get("admin_token")
-        const document_response = await axios.get(`http://localhost:8000/api/v1/document-route/get-all-files`);
+        const document_response = await axios.get(`https://amalitech-project-server.onrender.com/api/v1/document-route/get-all-files`);
         const document_data = await document_response?.data?.msg;
 
         console.log("ddd", document_data)
         
         const promises = document_data.map(async (data) => {
             
-            const message_response = await axios.get(`http://localhost:8000/api/v1/message-route/messages-for-each-file/${data._id}`, {
+            const message_response = await axios.get(`https://amalitech-project-server.onrender.com/api/v1/message-route/messages-for-each-file/${data._id}`, {
                 withCredentials: true,
                 headers: {
                     'Authorization': `Bearer ${admin_token}`
@@ -18,7 +18,7 @@ const get_table_field = async (setError, creatData, setRows) => {
             });
             const message_data = await message_response.data?.msg;
             
-            const download_response = await axios.get(`http://localhost:8000/api/v1/download-route/downloads-for-each-file/${data._id}`, {
+            const download_response = await axios.get(`https://amalitech-project-server.onrender.com/api/v1/download-route/downloads-for-each-file/${data._id}`, {
                 withCredentials: true, 
                  headers: {
                     'Authorization': `Bearer ${admin_token}`

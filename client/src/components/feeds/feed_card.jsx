@@ -8,7 +8,7 @@ import { feeds_context } from '../../service/feeds_content'
 const FeedCard = ({title, description, file, id}) => {
   const {modal_control, post_download} = useContext(feeds_context)
   
-  let image_url = `http://localhost:8000/files/${file}`
+  let image_url = `https://amalitech-project-server.onrender.com/files/${file}`
 
   return (
     <div className='card' style={{marginBottom:"1rem"}}>

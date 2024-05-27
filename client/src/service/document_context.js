@@ -47,7 +47,7 @@ const DocumentProvider = ({children}) => {
             formData.append('type', document.type);
 
             const admin_token = Cookies.get("admin_token")
-            const response = await axios.post(`http://localhost:8000/api/v1/document-route/create-document`, formData, {
+            const response = await axios.post(`https://amalitech-project-server.onrender.com/api/v1/document-route/create-document`, formData, {
                 headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': `Bearer ${admin_token}`,
