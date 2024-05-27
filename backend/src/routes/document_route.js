@@ -7,7 +7,7 @@ const { is_user } = require("../middleware/is_user")
 
 const document_route = Router()
 
-document_route.post("/create-document" ,is_admin, upload.single("file"), Create_document)
+document_route.post("/create-document" , upload.single("file"), Create_document)
 document_route.get("/get-all-files", Get_all_files)
 
 // http://localhost:8000/api/v1/document-route/search-file?search=yaw
