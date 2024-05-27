@@ -4,30 +4,35 @@ const path = require("path")
 const fs = require("fs");
 const { decodeToken } = require("../utils/jwt");
 const { error } = require("console");
+const Document = require("../model/document");
 
 // GET
-// ROUTE: http://localhost:8000/api/v1/download-route/download-file/document_id/file_name/
+// ROUTE: http://localhost:8000/api/v1/download-route/download-file/document_id/
 // This route allows the user to download a file
 exports.download_file = async (req, res) => {
     try {
         // Extract document_id and file_name from request parameters
         const { document_id, file_name } = req.params;
 
-        res.download(`./public/files/${file_name}`); 
         
         const user_id = req.id
+
+        const find_document = await Document.findOne({_id:document_id})[0]
+        
+        if (!find_document) throw new Error("Document not found") 
         
         // Storing the download details to the database
-        const download = await Download.create({ document: document_id, downloadedBy:user_id});
+        const download = await Download.create({ document: find_document?._id, downloadedBy:user_id});
 
         // If download creation fails, throw error
-        if (!download) throw new Error("Download fails");
-        
-        // Return success response (optional)
-        // return res.json({ msg: "Download successfully" });
+        if (!download) throw new Error("Download fails"); 
+         console.log("download")
+        return res.download(`public/files/${find_document?.file}`); 
+        //return res.download(find_document.file_path);  
         
     } catch (error) {
         // Handle errors
+        
         return res.status(500).json({ msg: error.message });
     }
 };

@@ -8,6 +8,7 @@ const { generateToken } = require("../utils/jwt");
 //POST
 //http://localhost:8000/api/v1/admin-route/register-admin
 exports.Admin_register = async (req, res) => {
+    
     //Input fields error checking
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

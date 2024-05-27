@@ -13,7 +13,7 @@ const FeedCard = ({title, description, file, id}) => {
   return (
     <div className='card'>
       <div className='image'>
-        {file.endsWith(".pdf") ? (
+        {file?.endsWith(".pdf") ? (
           <embed src={image_url} type="application/pdf" width="100%" height="100%" className='embed' />
         ) : (
             <img src={image_url} alt='img'/>
