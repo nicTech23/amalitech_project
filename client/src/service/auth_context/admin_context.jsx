@@ -35,7 +35,7 @@ const AdminProvider = ({children}) => {
             password:admin_login.password
         }
 
-        try {
+        try {                                  
             const response = await axios.post(`https://nss-project-backend.onrender.com/api/v1/admin-route/admin-login`, body, {withCredentials:true})
             const data = await response.data
             console.log("my data", data)
