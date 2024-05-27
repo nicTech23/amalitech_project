@@ -39,7 +39,7 @@ exports.Register = async (req, res) =>{
         const token = generateToken(user._id, "1d")
         
         // Create verification link for email
-        const verification_link = `https://nss-project-client.vercel.app/verify/${token}`
+        const verification_link = `https://amalitech-project-client.vercel.app//verify/${token}`
 
         // Send verification email
         await NodeMailer(email, "Verify account", null, first_name, verification_link, 'account_verify')
