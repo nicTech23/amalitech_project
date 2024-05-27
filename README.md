@@ -5,6 +5,11 @@ Amalitech National Service Project
 
 This project is a file server that allows users to sign up, log in, and manage files. The admin can upload files, monitor the number of downloads, and track the number of emails sent for each file. The project utilizes JavaScript, Node.js for the backend, React.js for the frontend, and MongoDB for the database.
 
+Deploy Links:
+Server: https://amalitech-project-server.onrender.com 
+
+Client: https://amalitech-project-client.vercel.app/
+
 
 ## Features
 - **User Authentication:** Users can sign up, verify their account, log in, and reset their password.
@@ -30,6 +35,7 @@ The root directory contains two folders: `backend` and `client`.
    PORT=<port number>
    SECRET_KEY=<secret key>
    MONGODB_URL=<mongodb url>
+   NODE_ENV=production
    
 3. Install the necessary packages:
    ```bash
@@ -60,74 +66,113 @@ The root directory contains two folders: `backend` and `client`.
 ### User Routes
 
 - **Sign Up:**
-  POST /api/v1/user_auth-route/register
+  POST 
+  localhost: http://localhost:8000/api/v1/user_auth-route/register
+  external: https://amalitech-project-server.onrender.com/api/v1/user_auth-route/register
 
   Required fields: `first_name`, `last_name`, `email`, `password`, `telephone`.
 
 - **Account Verification:**
-  GET /api/v1/user_auth-route/verify-account/:token
+  GET 
+  localhost: http://localhost:8000/api/v1/user_auth-route/verify-account/:token
+  external: https://amalitech-project-server.onrender.com/api/v1/user_auth-route/:token
+
   params: `token`
   Token received via registering.
 
 - **Login:**
-  POST /api/v1/user_auth-route/user-login
+  POST 
+  localhost: http://localhost:8000/api/v1/user_auth-route/user-login
+  external: https://amalitech-project-server.onrender.com/api/v1/user_auth-route/user-login
 
   Required fields: `email`, `password`.
 
 - **Forgot Password:**
-  POST /api/v1/user_auth-route/forgot-password
+  POST 
+  localhost: http://localhost:8000/api/v1/user_auth-route/forgot-password
+  external: https://amalitech-project-server.onrender.com/api/v1/user_auth-route/forgot-password
+
   Required field: `email`.
 
-- **Update Password:**
-  PUT /api/v1/user_auth-route/update-password/:token
+- **Update Password:** 
+  PUT 
+  localhost: http://localhost:8000/api/v1/user_auth-route/update-password/:token
+  external: https://amalitech-project-server.onrender.com/api/v1/user_auth-route/:token
+
   Required fields: `password`, `confirm_password`.
   params: `token` from forgot password
 
 
 - **List of Files:**
-  GET /api/v1/document-route/get-all-files
+  GET 
+  localhost: http://localhost:8000/api/v1/document-route/get-all-files
+  external: https://amalitech-project-server.onrender.com/api/v1/document-route/get-all-files
 
   NB: List will be found when admin has upload a file
 
 - **Search for a File:**
-  GET /api/v1/document-route/search-file?search=query
+  GET 
+  localhost: http://localhost:8000/api/v1/document-route/search-file?search=query
+  external: https://amalitech-project-server.onrender.com/api/v1/document-route/search-file?search=query
 
   NB: File will be found when admin has upload a file
 
 - **Download File:**
-  GET /api/v1/download-route/download-file/:document_id/:file_name 
+  GET 
+  localhost: http://localhost:8000/api/v1/download-route/download-file/:document_id/
+  external: https://amalitech-project-server.onrender.com/api/v1/download-file/:document_id
 
-  params: `document_id`, `file_name`
-  The document_id, and the file_name must be from one document
-  NB: file can be  Download when admin has added a file
+  params: `document_id`
+  
 
 - **Send File to Email:**
-  POST /api/v1/message-route/send-message/:document_id
+  POST 
+  localhost: 
+  localhost: http://localhost:8000/api/v1/message-route/send-message/:document_id
+  external: https://amalitech-project-server.onrender.com/api/v1/send-message/:document_id
+
   params: `document_id`
   Required fields: `body`, `subject`, `recipient`(email), `file_name`.
 
 ### Admin Routes
 - **Admin Sign Up:**
-  POST /api/v1/admin-route/register-admin
+  POST 
+  localhost: http://localhost:8000/api/v1/admin-route/register-admin
+  external: https://amalitech-project-server.onrender.com/api/v1/admin-route/register-admin
+
   Required fields: `name`, `email`, `password`.
 
 - **Admin Login:**
-  POST /api/v1/admin-route/admin-login
+  POST 
+  localhost: http://localhost:8000/api/v1/admin-route/admin-login
+  external: https://amalitech-project-server.onrender.com/api/v1/admin-route/admin-login
+
   Required fields: `email`, `password`.
 
 - **Upload File:**
-  POST /api/v1/document-route/create-document
+  POST 
+  localhost: http://localhost:8000/api/v1/document-route/create-document
+  external: https://amalitech-project-server.onrender.com/api/v1/document-route/create-document
+  
   Required fields: `file` (as file), `title`, `description`, `type`.
 
 - **Get All Documents:**
-  GET /api/v1/document-route/get-all-files
+  GET 
+  localhost: http://localhost:8000/api/v1/document-route/get-all-files
+  external: https://amalitech-project-server.onrender.com/api/v1/document-route/get-all-files
 
 - **Number of Downloads for Each File:**
-  GET /api/v1/download-route/downloads-for-each-file/:document_id
+  GET 
+  localhost: http://localhost:8000/api/v1/download-route/downloads-for-each-file/:document_id
+  external: https://amalitech-project-server.onrender.com/api/v1/download-route/downloads-for-each-file/:document_id
+
   params:`document_id`
 
 - **Number of Emails Sent for Each File:**
-  GET /api/v1/message-route/messages-for-each-file/:document_id
+  GET 
+  localhost: http://localhost:8000/api/v1/message-route/messages-for-each-file/:document_id
+  external: https://amalitech-project-server.onrender.com/api/v1/message-route/messages-for-each-file/:document_id
+
   params:`document_id`
 
 
@@ -137,16 +182,20 @@ The root directory contains two folders: `backend` and `client`.
 
 - **Sign Up:**
   Navigate to:
-  http://localhost:3000/user-signup
+  localhost: http://localhost:3000/user-signup
+  external: https://amalitech-project-client.vercel.app/user-signup
   
   After signing up, a verification link will be sent to your email.
 
 - **Login:**
   Navigate to:
-  http://localhost:3000/user-login
+  localhost: http://localhost:3000/user-login
+  external: https://amalitech-project-client.vercel.app/user-login
+
   
   After logging in, you will be redirected to:
-  http://localhost:3000/feeds
+  localhost: http://localhost:3000/feeds
+  external: https://amalitech-project-client.vercel.app/feeds
 
   Here, you can search for files, download files, and send files via email.
 
@@ -154,14 +203,18 @@ The root directory contains two folders: `backend` and `client`.
 
 - **Sign Up:**
   Navigate to:
-  http://localhost:3000/admin-signup
+  localhost: //localhost:3000/admin-signup
+  external: https://amalitech-project-client.vercel.app/admin-signup
   
 - **Login:**
   Navigate to:
-  http://localhost:3000/admin-login
+  localhost: http://localhost:3000/admin-login
+  external: https://amalitech-project-client.vercel.app/admin-login
   
   After logging in, you will be redirected to:
-  http://localhost:3000/admin-dashboard
+  localhost: http://localhost:3000/admin-dashboard
+  external: https://amalitech-project-client.vercel.app/admin-dashboard
+
   Here, you can upload files, and see the number of downloads and emails sent for each file.
 
 ## Environment Variables
