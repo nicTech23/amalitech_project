@@ -20,7 +20,7 @@ const Modal = () => {
             <div className='field_box'>
                 <select id="type" name="type" onChange={get_document_values} >
                     <option value="Select">Select</option>
-                    <option value="Wedding card">Weding card</option>
+                    <option value="Wedding card">Wedding card</option>
                     <option value="Universit form">University forms</option>
                     <option value="Government form">Government form</option>
                     <option value="Other form">Other form</option>

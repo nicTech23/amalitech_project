@@ -34,7 +34,7 @@ exports.Create_document = async (req, res) => {
 
 // Endpoint to search for files
 //GET
-// http://localhost:8000/api/v1/document-route/search-file?search=yaw
+// http://localhost:8000/api/v1/document-route/search-file?search=query
 exports.Search_file = async (req, res) => {
     try {
         const { search } = req.query;
@@ -71,7 +71,8 @@ exports.Get_all_files = async (req, res) => {
     try {
         // Find all files in database
         const files = await Document.find();
-        console.log(files)
+       
+        
         // Return files
         return res.status(200).json({ msg: files });
 

@@ -2,11 +2,12 @@ const Message = require("../model/messages");
 const path = require("path")
 const nodeMailer = require("../utils/nodeMailer")
 const { validationResult } = require("express-validator");
-const {decodeToken} = require("../utils/jwt")
+const {decodeToken} = require("../utils/jwt");
+const Document = require("../model/document");
 
 
 // POST
-// ROUTE: http://localhost:8000/api/v1/message-route/send-message/document_id/
+// ROUTE: http://localhost:8000/api/v1/message-route/send-message/:document_id/
 // This route allows the user to send a file to an email
 // Make sure that the file_name and the document_id are for the same file or document
 exports.send_message = async (req, res) => {
@@ -15,7 +16,7 @@ exports.send_message = async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array()[0].msg });
     }
-
+    
     try {
         // Extracting request body parameters
         const body = req.body.body;
@@ -25,7 +26,12 @@ exports.send_message = async (req, res) => {
 
         // Extracting document_id from request parameters
         const { document_id } = req.params;
+
+        //check the document if it exists
+        const find_document = await Document.findOne({_id: document_id}).select("file")
        
+        // throw error if document not found
+        if (!find_document) throw new Errow("No such document found")
         
         // get the user_id from isUser middleware
         const user_id = req.id
@@ -34,7 +40,7 @@ exports.send_message = async (req, res) => {
         const attachments = [
             {
                 filename: file_name,
-                path:`./public/files/${file_name}` 
+                path:`./public/files/${find_document?.file}` 
             }
         ];
         

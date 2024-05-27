@@ -4,6 +4,7 @@ exports.is_admin = async(req, res, next) =>{
     try {
         // Extract admin token from the session 
         const admin_token = req.headers?.authorization?.split(" ")[1] || req.cookies?.admin_token1
+        
         console.log(req.cookies)
        
 

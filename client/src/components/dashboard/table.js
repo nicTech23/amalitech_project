@@ -74,7 +74,7 @@ const [error, setError] = useState(null)
           <TableRow>
             <StyledTableCell>Document</StyledTableCell>
             <StyledTableCell align="right">Document type</StyledTableCell>
-            <StyledTableCell align="right">No. of Download</StyledTableCell>
+            <StyledTableCell align="right">No. of Downloads</StyledTableCell>
             <StyledTableCell align="right">No. of Message sent</StyledTableCell>
           </TableRow>
         </TableHead>

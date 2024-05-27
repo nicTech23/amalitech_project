@@ -43,4 +43,8 @@ const admin_register_validation = [
     body("name").notEmpty().withMessage("Please provide your name").trim(),
 ];
 
-module.exports = {register_validation, message_validation, admin_register_validation, login_validation }
+const update_password = [
+     body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long').trim(),
+]
+
+module.exports = {register_validation, message_validation, admin_register_validation, login_validation, update_password }

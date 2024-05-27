@@ -71,9 +71,8 @@ exports.Admin_login = async (req, res) => {
         //cookies set for admin
         res.cookie('admin_token1', token, {
             httpOnly: true, // Helps prevent cross-site scripting (XSS) attacks
-            secure: process.env.NODE_ENV === 'production'  ? true : false, // Use secure cookies in production
+            secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
             maxAge: 7 * 24 * 60 * 60 * 1000, // Cookie expires in 7 days
-            path: '/', // Cookie is accessible on all paths
         });
 
         // Return success response with admin ID

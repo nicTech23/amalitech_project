@@ -8,10 +8,10 @@ import { feeds_context } from '../../service/feeds_content'
 const FeedCard = ({title, description, file, id}) => {
   const {modal_control, post_download} = useContext(feeds_context)
   
-  let image_url = `https://nss-project-backend.onrender.com/files/${file}`
+  let image_url = `http://localhost:8000/files/${file}`
 
   return (
-    <div className='card'>
+    <div className='card' style={{marginBottom:"1rem"}}>
       <div className='image'>
         {file?.endsWith(".pdf") ? (
           <embed src={image_url} type="application/pdf" width="100%" height="100%" className='embed' />

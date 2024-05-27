@@ -174,6 +174,13 @@ exports.Forgot_password = async (req, res) => {
 //PUT
 //Route: http://localhost:8000/api/v1/user_auth-route/update-password/:token
 exports.Update_password = async (req, res) => {
+    
+    // Check for validation errors
+    const errors = validationResult(req); 
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array()[0].msg });
+    }
+
     try {
         const { password, confirm_password } = req.body;
 
