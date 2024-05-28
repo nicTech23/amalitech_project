@@ -43,7 +43,7 @@ const FeedProvider = ({children}) => {
   const modal_control = (id, file_name )=>{
     setModal(!modal)
     set_feed_id(id)
-    localStorage.setItem("file_name", file_name )
+    
   }
 
   const get_message = (e)=>{
@@ -52,13 +52,12 @@ const FeedProvider = ({children}) => {
   
  
   const post_message = async()=>{
-    const file_name = localStorage.getItem("file_name")
+    
     
     const body = {
       subject: email.subject,
       body: email.body,
       recipient: email.recipient,
-      file_name 
     }
     try {
       set_send("sending...")

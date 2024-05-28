@@ -21,7 +21,7 @@ Client: https://amalitech-project-client.vercel.app/
 1. Clone the repository to your local machine.
 2. Navigate to the project directory.
 
-## Running the Application
+## Running the Application locally 
 
 The root directory contains two folders: `backend` and `client`.
 
@@ -108,14 +108,14 @@ The root directory contains two folders: `backend` and `client`.
   localhost: http://localhost:8000/api/v1/document-route/get-all-files
   external: https://amalitech-project-server.onrender.com/api/v1/document-route/get-all-files
 
-  NB: List will be found when admin has upload a file
+  NB: List will be find when admin has upload a file
 
 - **Search for a File:**
   GET 
   localhost: http://localhost:8000/api/v1/document-route/search-file?search=query
   external: https://amalitech-project-server.onrender.com/api/v1/document-route/search-file?search=query
 
-  NB: File will be found when admin has upload a file
+  NB: File will be find when admin has upload a file
 
 - **Download File:**
   GET 
@@ -127,12 +127,11 @@ The root directory contains two folders: `backend` and `client`.
 
 - **Send File to Email:**
   POST 
-  localhost: 
   localhost: http://localhost:8000/api/v1/message-route/send-message/:document_id
   external: https://amalitech-project-server.onrender.com/api/v1/send-message/:document_id
 
   params: `document_id`
-  Required fields: `body`, `subject`, `recipient`(email), `file_name`.
+  Required fields: `body`, `subject`, `recipient`(email)
 
 ### Admin Routes
 - **Admin Sign Up:**

@@ -22,8 +22,8 @@ exports.send_message = async (req, res) => {
         const body = req.body.body;
         const subject = req.body.subject;
         const recipient = req.body.recipient;
-        const file_name = req.body.file_name;
-
+       
+        
         // Extracting document_id from request parameters
         const { document_id } = req.params;
 
@@ -39,7 +39,7 @@ exports.send_message = async (req, res) => {
         // File attached to the email
         const attachments = [
             {
-                filename: file_name,
+                filename: find_document?.file,
                 path:`./public/files/${find_document?.file}` 
             }
         ];
