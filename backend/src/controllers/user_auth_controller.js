@@ -152,7 +152,7 @@ exports.Forgot_password = async (req, res) => {
         // Attach token to the user session
         //req.session.forget_token = token;
 
-        const upate_link = `http://localhost:3000/update-password/${token}`
+        const upate_link = `https://amalitech-project-client.vercel.app/update-password/${token}`
 
          // Send verification email
         await NodeMailer(email, "Reset password", null, user.first_name, upate_link, 'update_password', )
