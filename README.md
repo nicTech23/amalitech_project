@@ -189,7 +189,8 @@ The root directory contains two folders: `backend` and `client`.
 
 
 
-## Frontend Use
+## Frontend 
+## Using the client for testing
 
 ### User Actions
 
