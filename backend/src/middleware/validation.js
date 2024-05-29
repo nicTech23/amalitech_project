@@ -12,7 +12,7 @@ const register_validation = [
     // Validate email field
     body('email').isEmail().withMessage('Please provide a valid email address').trim(),
     // Validate telephone field
-    body("telephone").notEmpty().withMessage("Please provide your telephone number").trim()
+    body("telephone").isLength({ min: 10 }).withMessage('Telephone must be at least 10 numbers')
 ];
 
 
