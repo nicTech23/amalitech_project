@@ -4,9 +4,10 @@ const { hash_password, comapare_password } = require("../utils/bcrypt");
 const { generateToken } = require("../utils/jwt");
 
 
-// Endpoint for admin login
+// Endpoint for admin register
 //POST
-//http://localhost:8000/api/v1/admin-route/register-admin
+//localhost: http://localhost:8000/api/v1/admin-route/register-admin
+//deploy link: https://amalitech-project-server.onrender.com/api/v1/admin-route/register-admin
 exports.Admin_register = async (req, res) => {
     
     //Input fields error checking
@@ -44,8 +45,16 @@ exports.Admin_register = async (req, res) => {
 
 //Endpoint to register a new admin
 //POST
-//Route: http://localhost:8000/api/v1/admin-route/admin-login
+//localhost: http://localhost:8000/api/v1/admin-route/admin-login
+//deploy link: https://amalitech-project-server.onrender.com/api/v1/admin-route/admin-login
 exports.Admin_login = async (req, res) => {
+    
+    //Input fields error checking
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array()[0].msg });
+    }
+
     try {
         // Extract email and password from request body
         const { email, password } = req.body;

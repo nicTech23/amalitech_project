@@ -4,7 +4,8 @@ const { decodeToken } = require("../utils/jwt")
 
 // Endpoint to create a new document in the database
 //POST
-// http://localhost:8000/api/v1/document-route/create-document
+//localhost: http://localhost:8000/api/v1/document-route/create-document
+//deploy link: https://amalitech-project-server.onrender.com/api/v1/document-route/create-document
 exports.Create_document = async (req, res) => {
     try {
 
@@ -34,7 +35,8 @@ exports.Create_document = async (req, res) => {
 
 // Endpoint to search for files
 //GET
-// http://localhost:8000/api/v1/document-route/search-file?search=query
+//localhost: http://localhost:8000/api/v1/document-route/search-file?search=query
+//deploy link:  https://amalitech-project-server.onrender.com/api/v1/document-route/search-file?search=query
 exports.Search_file = async (req, res) => {
     try {
         const { search } = req.query;
@@ -66,7 +68,8 @@ exports.Search_file = async (req, res) => {
 
 // Endpoint to list all files
 //GET
-// http://localhost:8000/api/v1/document-route/get-all-files
+//localhost: http://localhost:8000/api/v1/document-route/get-all-files
+//deloy link: https://amalitech-project-server.onrender.com/api/v1/document-route/get-all-files
 exports.Get_all_files = async (req, res) => {
     try {
         // Find all files in database
@@ -85,7 +88,8 @@ exports.Get_all_files = async (req, res) => {
 
 // Endpoint to get files of a specific type
 //GET
-// http://localhost:8000/api/v1/document-route/get-type-of-file/type
+//localhost: http://localhost:8000/api/v1/document-route/get-type-of-file/type
+//deploy link: https://amalitech-project-server.onrender.com/api/v1/document-route/get-type-of-file/type
 exports.Get_type_of_file = async (req, res) => {
     try {
         const { type } = req.params;

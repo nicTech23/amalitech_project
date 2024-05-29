@@ -7,7 +7,7 @@ const generateToken = (id, exp)=>{
 const decodeToken = (token) =>{
     return jwt.verify(token, process.env.SECRETE_KEY, (err, data)=>{
         if (err) {
-            return err
+            return err.message
         } else {
             return data
         }

@@ -7,12 +7,13 @@ const { error } = require("console");
 const Document = require("../model/document");
 
 // GET
-// ROUTE: http://localhost:8000/api/v1/download-route/download-file/:document_id/
+// localhost: http://localhost:8000/api/v1/download-route/download-file/:document_id/
+// deploy link: https://amalitech-project-server.onrender.com/api/v1/download-route/download-file/:document_id/
 // This route allows the user to download a file
 exports.download_file = async (req, res) => {
     try {
         // Extract document_id and file_name from request parameters
-        const { document_id, file_name } = req.params;
+        const { document_id} = req.params;
 
         const user_id = req.id
 
@@ -37,7 +38,8 @@ exports.download_file = async (req, res) => {
 };
 
 // GET
-// ROUTE: http://localhost:8000/api/v1/download-route/downloads-for-each-file/:document_id
+// localhost: http://localhost:8000/api/v1/download-route/downloads-for-each-file/:document_id
+// deploy link: https://amalitech-project-server.onrender.com/api/v1/download-route/downloads-for-each-file/:document_id
 // This route allows the admin to see the number of downloads for each file
 exports.Downloads_for_each_file = async (req, res) => {
     try {
@@ -60,7 +62,8 @@ exports.Downloads_for_each_file = async (req, res) => {
 
 
 //GET
-//ROUTE: http://localhost:8000/api/v1/download-route/get-all-downloads
+//localhost: http://localhost:8000/api/v1/download-route/get-all-downloads
+//deploy link: https://amalitech-project-server.onrender.com/api/v1/download-route/get-all-downloads
 //this route let the the admin to see all files downloaded
 exports.Get_all_downloads = async(req, res)=>{
     try {

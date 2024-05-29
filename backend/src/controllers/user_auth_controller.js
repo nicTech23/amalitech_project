@@ -4,11 +4,12 @@ const { comapare_password, hash_password } = require("../utils/bcrypt");
 const { generateToken, decodeToken } = require("../utils/jwt");
 const NodeMailer = require("../utils/nodeMailer");
 
-
+ 
 //POST
-//Route: http://localhost:8000/api/v1/user_auth-route/register
+//local host: http://localhost:8000/api/v1/user_auth-route/register
+//deploy link: https://amalitech-project-server.onrender.com/api/v1/user_auth-route/register
 // Sign up as user
-//After signing up email will verification link will send to your email but yous the response token for verification
+//After signing up email with verification link will send to your email but yous the response token for verification
 exports.Register = async (req, res) =>{
    
     // Check for validation errors
@@ -53,11 +54,13 @@ exports.Register = async (req, res) =>{
 }
 
 //GET
-//http://localhost:8000/api/v1/user_auth-route//verify-account/:token
+//localhost: http://localhost:8000/api/v1/user_auth-route/verify-account/:token
+//deploy link: https://amalitech-project-server.onrender.com/api/v1/user_auth-route/verify-account/:token
 exports.Verify_account = async (req, res) => {
     try {
         const { token } = req.params;
         const decode_token = decodeToken(token);
+
 
         // Handle expired token
         if (decode_token?.message === "jwt expired") throw new Error("Time out");
@@ -66,10 +69,13 @@ exports.Verify_account = async (req, res) => {
         if (decode_token?.message === "invalid token") throw new Error("Unauthorized access");
 
         const { id } = decode_token;
-
+        
+        // throw error if id is undefined
+        if (typeof id === "undefined") throw new Error("Verification failed")
+        
         // Update verification status for the user
         const update_verify = await User.findByIdAndUpdate({ _id: id }, { verify: true });
-
+    
         // If verification update fails, throw error
         if (!update_verify) throw new Error("Verification failed");
         
@@ -83,7 +89,8 @@ exports.Verify_account = async (req, res) => {
 
 
 //POST
-//Route: http://localhost:8000/api/v1/user_auth-route/user-login
+//localhost: http://localhost:8000/api/v1/user_auth-route/user-login
+//deploy link: https://amalitech-project-server.onrender.com/api/v1/user_auth-route/user-login
 //Login as a User
 exports.User_login = async (req, res) =>{
     // Check for validation errors
@@ -133,8 +140,16 @@ exports.User_login = async (req, res) =>{
 
 
 //POST
-//Route: http://localhost:8000/api/v1/user_auth-route/forgot-password
+//localhost: http://localhost:8000/api/v1/user_auth-route/forgot-password
+//deploy link: https://amalitech-project-server.onrender.com/api/v1/user_auth-route/forgot-password
 exports.Forgot_password = async (req, res) => {
+    
+    // Check for validation errors
+    const errors = validationResult(req); 
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array()[0].msg });
+    }
+
     try {
         const { email } = req.body;
 
@@ -172,7 +187,8 @@ exports.Forgot_password = async (req, res) => {
 
 
 //PUT
-//Route: http://localhost:8000/api/v1/user_auth-route/update-password/:token
+//localhost: http://localhost:8000/api/v1/user_auth-route/update-password/:token
+//deploylink: https://amalitech-project-server.onrender.com/api/v1/user_auth-route/update-password/:token
 exports.Update_password = async (req, res) => {
     
     // Check for validation errors
@@ -194,7 +210,10 @@ exports.Update_password = async (req, res) => {
         if (decode?.message === "invalid token") throw new Error("Unauthorized access");
 
          // Extract user id from the decoded token
-        const {id} = decode;
+        const { id } = decode;
+        
+        // throw error if id is undefined
+        if (typeof id === "undefined") throw new Error("password update failed")
         
         // Compare the two passwords to see if they match
         if (password != confirm_password) return res.status(401).json({ msg: "Password does not match" });
@@ -220,6 +239,7 @@ exports.Update_password = async (req, res) => {
 
 
 // //GET
+// //http://localhost:8000/api/v1/user_auth-route/logout
 // //http://localhost:8000/api/v1/user_auth-route/logout
 // exports.logout = async(req, res)=>{
 //     try {

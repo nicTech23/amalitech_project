@@ -7,9 +7,9 @@ const Document = require("../model/document");
 
 
 // POST
-// ROUTE: http://localhost:8000/api/v1/message-route/send-message/:document_id/
+// localhost: http://localhost:8000/api/v1/message-route/send-message/:document_id
+// deploy link: https://amalitech-project-server.onrender.com/api/v1/message-route/send-message/:document_id/
 // This route allows the user to send a file to an email
-// Make sure that the file_name and the document_id are for the same file or document
 exports.send_message = async (req, res) => {
     // Checking input fields
     const errors = validationResult(req);
@@ -23,7 +23,6 @@ exports.send_message = async (req, res) => {
         const subject = req.body.subject;
         const recipient = req.body.recipient;
        
-        
         // Extracting document_id from request parameters
         const { document_id } = req.params;
 
@@ -63,12 +62,15 @@ exports.send_message = async (req, res) => {
 
 
 // GET
-// ROUTE: http://localhost:8000/api/v1/message-route/messages-for-each-file/:document_id
+// localhost: http://localhost:8000/api/v1/message-route/messages-for-each-file/:document_id
+// deploy link: https://amalitech-project-server.onrender.com/api/v1/message-route/messages-for-each-file/:document_id
 // This route allows the admin to see the total number of each file sent to an email by users
 exports.Messages_for_each_file = async (req, res) => {
     try {
         // Extract document_id from request parameters
         const { document_id } = req.params;
+
+        if(typeof document_id === "undefined") throw new Error("document not found")
         
         // Counting messages sent for each document in the database
         const total_messages = await Message.countDocuments({ document: document_id });
@@ -86,7 +88,8 @@ exports.Messages_for_each_file = async (req, res) => {
 
 
 //GET
-//ROUTE: http://localhost:8000/api/v1/message-route/get-all-messages/
+//localhost: http://localhost:8000/api/v1/message-route/get-all-messages/
+//deploy link:  https://amalitech-project-server.onrender.com/api/v1/message-route/get-all-messages/
 //This route let admin to get all files send to an email by user
 exports.get_all_messages = async(req, res)=>{
     try {
