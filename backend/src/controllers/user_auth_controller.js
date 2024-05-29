@@ -162,7 +162,7 @@ exports.Forgot_password = async (req, res) => {
         }
 
         // Generate JWT token for the user to reset password
-        const token = generateToken(user.id, "5m");
+        const token = generateToken(user.id, "1d");
 
         // Attach token to the user session
         //req.session.forget_token = token;
