@@ -60,7 +60,10 @@ The root directory contains two folders: `backend` and `client`.
    ```bash
    npm start
    ```
-
+### testing  with jest
+  cd backend
+  npm test
+  
 ## Backend Testing with Postman or Thunder Client
 
 ### User Routes
